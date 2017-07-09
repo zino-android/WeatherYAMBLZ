@@ -1,9 +1,11 @@
 package com.zino.mobilization.weatheryamblz;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +26,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TITLE_KEY = "title_key";
+
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
     @BindView(R.id.toolbar)
@@ -36,16 +40,26 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new WeatherFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_weather);
+            toolbar.setTitle(getResources().getString(R.string.action_weather));
+        } else {
+            String title = savedInstanceState.getString(TITLE_KEY);
+            toolbar.setTitle(title);
+        }
+
         setSupportActionBar(toolbar);
-
-
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -66,15 +80,26 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_weather:
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, new WeatherFragment()).commit();
+                toolbar.setTitle(getResources().getString(R.string.action_weather));
                 break;
             case R.id.nav_about:
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, new AboutFragment()).commit();
+                toolbar.setTitle(getResources().getString(R.string.action_about));
                 break;
             case R.id.nav_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
+                toolbar.setTitle(getResources().getString(R.string.action_settings));
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(TITLE_KEY, toolbar.getTitle().toString());
+    }
+
 }
