@@ -7,11 +7,11 @@
 
     <ImageView
         android:id="@+id/icon_image_view"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:layout_centerHorizontal="true"
         android:layout_margin="16dp"
-        android:src="@drawable/help_circle_outline"
+        android:src="@mipmap/ic_launcher_round"
         />
 
     <TextView
