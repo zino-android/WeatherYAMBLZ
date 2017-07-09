@@ -14,6 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.zino.mobilization.weatheryamblz.fragments.AboutFragment;
+import com.zino.mobilization.weatheryamblz.fragments.SettingsFragment;
+import com.zino.mobilization.weatheryamblz.fragments.WeatherFragment;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -61,13 +65,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_weather:
-
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new WeatherFragment()).commit();
                 break;
             case R.id.nav_about:
-
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new AboutFragment()).commit();
                 break;
             case R.id.nav_settings:
-
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
