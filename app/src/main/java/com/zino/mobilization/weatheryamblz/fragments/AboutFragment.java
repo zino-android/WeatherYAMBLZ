@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.zino.mobilization.weatheryamblz.BuildConfig;
 import com.zino.mobilization.weatheryamblz.R;
 
 import butterknife.BindView;
@@ -46,16 +47,7 @@ public class AboutFragment extends Fragment {
     }
 
     private void setVersionName() {
-        PackageInfo pInfo = null;
-        try {
-            pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        if (pInfo != null) {
-            String version = pInfo.versionName;
-            versionTextView.setText(getResources().getString(R.string.version) + ": " + version);
-        }
+        String version = BuildConfig.VERSION_NAME;
+        versionTextView.setText(String.format(getResources().getString(R.string.version), version));
     }
 }

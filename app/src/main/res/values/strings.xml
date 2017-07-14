@@ -7,6 +7,6 @@
     <string name="action_settings">Настройки</string>
     <string name="action_about">О приложении</string>
     <string name="action_weather">Погода</string>
-    <string name="version">Версия</string>
+    <string name="version">Версия: %s</string>
 
 </resources>
