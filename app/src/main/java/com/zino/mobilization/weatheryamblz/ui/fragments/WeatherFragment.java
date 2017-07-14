@@ -1,7 +1,6 @@
-package com.zino.mobilization.weatheryamblz.fragments;
+package com.zino.mobilization.weatheryamblz.ui.fragments;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,9 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zino.mobilization.weatheryamblz.BaseFragment;
-import com.zino.mobilization.weatheryamblz.OnNavigationChanged;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.zino.mobilization.weatheryamblz.R;
+import com.zino.mobilization.weatheryamblz.presentation.presenter.WeatherPresenter;
+import com.zino.mobilization.weatheryamblz.presentation.view.WeatherView;
 
 import butterknife.ButterKnife;
 
@@ -19,8 +19,10 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WeatherFragment extends BaseFragment {
+public class WeatherFragment extends BaseFragment implements WeatherView {
 
+    @InjectPresenter
+    WeatherPresenter presenter;
 
 
 
@@ -43,6 +45,21 @@ public class WeatherFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         onNavigationChanged.setTitle(getResources().getString(R.string.action_weather));
         onNavigationChanged.setMainScreen(true);
+
+    }
+
+    @Override
+    public void showWeather() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
 
     }
 }

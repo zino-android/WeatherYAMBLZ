@@ -1,4 +1,4 @@
-package com.zino.mobilization.weatheryamblz.fragments;
+package com.zino.mobilization.weatheryamblz.ui.fragments;
 
 
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zino.mobilization.weatheryamblz.BaseFragment;
 import com.zino.mobilization.weatheryamblz.R;
 
 import butterknife.ButterKnife;

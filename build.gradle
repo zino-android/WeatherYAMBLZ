@@ -30,4 +30,5 @@ ext {
     compile_sdk_version = 26
     min_sdk_version = 19
     target_sdk_version = 26
+    moxy_version = '1.5.3'
 }

@@ -1,10 +1,6 @@
-package com.zino.mobilization.weatheryamblz;
+package com.zino.mobilization.weatheryamblz.ui.activity;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -13,12 +9,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
-import com.zino.mobilization.weatheryamblz.fragments.AboutFragment;
-import com.zino.mobilization.weatheryamblz.fragments.SettingsFragment;
-import com.zino.mobilization.weatheryamblz.fragments.WeatherFragment;
+
+import com.zino.mobilization.weatheryamblz.R;
+import com.zino.mobilization.weatheryamblz.ui.fragments.AboutFragment;
+import com.zino.mobilization.weatheryamblz.ui.fragments.SettingsFragment;
+import com.zino.mobilization.weatheryamblz.ui.fragments.WeatherFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,12 +45,27 @@ public class MainActivity extends AppCompatActivity
             navigationView.setCheckedItem(R.id.nav_weather);
         }
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSupportFragmentManager().popBackStack();
+            }
+        });
+
         setSupportActionBar(toolbar);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        Log.i("kkkk", "onNavigateUp: ");
+        getSupportFragmentManager().popBackStack();
+        return super.onNavigateUp();
 
     }
 

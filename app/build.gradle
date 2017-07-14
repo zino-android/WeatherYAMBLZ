@@ -54,6 +54,10 @@ dependencies {
     compile "com.jakewharton:butterknife:$rootProject.butter_knife_version"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butter_knife_version"
 
+    compile "com.arello-mobile:moxy:$rootProject.moxy_version"
+    compile "com.arello-mobile:moxy-app-compat:$rootProject.moxy_version"
+    annotationProcessor "com.arello-mobile:moxy-compiler:$rootProject.moxy_version"
+
     compile "com.android.support:support-v4:$rootProject.support_version"
     testCompile "junit:junit:$rootProject.junit_version"
 }
