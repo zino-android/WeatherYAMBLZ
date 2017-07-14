@@ -55,6 +55,5 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butter_knife_version"
 
     compile "com.android.support:support-v4:$rootProject.support_version"
-    compile 'com.android.support:support-v4:26.+'
     testCompile 'junit:junit:4.12'
 }

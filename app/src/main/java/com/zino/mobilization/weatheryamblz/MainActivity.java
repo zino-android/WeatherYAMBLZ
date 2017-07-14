@@ -24,9 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
-    private static final String TITLE_KEY = "title_key";
+        implements NavigationView.OnNavigationItemSelectedListener, OnNavigationChanged {
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
@@ -35,26 +33,23 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
+    private ActionBarDrawerToggle toggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new WeatherFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_weather);
-            toolbar.setTitle(getResources().getString(R.string.action_weather));
-        } else {
-            String title = savedInstanceState.getString(TITLE_KEY);
-            toolbar.setTitle(title);
         }
 
         setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -75,20 +70,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_weather:
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, new WeatherFragment()).commit();
-                toolbar.setTitle(getResources().getString(R.string.action_weather));
                 break;
             case R.id.nav_about:
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, new AboutFragment()).commit();
-                toolbar.setTitle(getResources().getString(R.string.action_about));
                 break;
             case R.id.nav_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
-                toolbar.setTitle(getResources().getString(R.string.action_settings));
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -96,10 +87,26 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(TITLE_KEY, toolbar.getTitle().toString());
+    public void setTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
+
+    @Override
+    public void setMainScreen(boolean isMainScreen) {
+        if (isMainScreen) {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            toggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_UNLOCKED);
+            toggle.setDrawerIndicatorEnabled(true);
+            toggle.syncState();
+        } else {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        }
+    }
+
 
 }
