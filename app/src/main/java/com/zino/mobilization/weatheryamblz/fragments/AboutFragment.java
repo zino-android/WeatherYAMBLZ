@@ -37,7 +37,6 @@ public class AboutFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -61,16 +60,5 @@ public class AboutFragment extends BaseFragment {
         versionTextView.setText(String.format(getResources().getString(R.string.version), version));
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Log.i("fgdg", "onOptionsItemSelected: " + item.getItemId());
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                //NavUtils.navigateUpFromSameTask(this);
-                getFragmentManager().popBackStack();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 }
