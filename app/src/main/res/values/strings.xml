@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name" translatable="false">WeatherYAMBLZ</string>
+
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+
+    <string name="action_settings">Настройки</string>
+    <string name="action_about">О приложении</string>
+    <string name="action_weather">Погода</string>
+    <string name="version">Версия</string>
+
+</resources>
