@@ -25,5 +25,9 @@ task clean(type: Delete) {
 ext {
     support_version = '26.0.0-alpha1'
     junit_version = '4.12'
+    espresso_version = '2.2.2'
     butter_knife_version = '8.6.0'
+    compile_sdk_version = 26
+    min_sdk_version = 19
+    target_sdk_version = 26
 }

@@ -6,12 +6,12 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion rootProject.compile_sdk_version
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.zino.mobilization.weatheryamblz"
-        minSdkVersion 19
-        targetSdkVersion 26
+        minSdkVersion rootProject.min_sdk_version
+        targetSdkVersion rootProject.target_sdk_version
         versionCode 1
         versionName "0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -46,7 +46,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espresso_version", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile "com.android.support:appcompat-v7:$rootProject.support_version"
@@ -55,5 +55,5 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butter_knife_version"
 
     compile "com.android.support:support-v4:$rootProject.support_version"
-    testCompile 'junit:junit:4.12'
+    testCompile "junit:junit:$rootProject.junit_version"
 }
