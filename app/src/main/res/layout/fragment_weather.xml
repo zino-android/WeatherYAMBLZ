@@ -5,11 +5,12 @@
     tools:context=".ui.fragments.WeatherFragment">
 
     <TextView
+        android:id="@+id/temp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="@android:color/black"
         android:textSize="26sp"
-        android:text="@string/action_weather" />
+        android:text="" />
 
 </FrameLayout>

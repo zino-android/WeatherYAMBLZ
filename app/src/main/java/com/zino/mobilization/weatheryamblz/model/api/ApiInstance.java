@@ -16,7 +16,7 @@ public class ApiInstance {
     public static WeatherAPI getAPI() {
         if (api == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://helpbtn.ru/")
+                    .baseUrl("http://api.openweathermap.org/data/2.5/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();

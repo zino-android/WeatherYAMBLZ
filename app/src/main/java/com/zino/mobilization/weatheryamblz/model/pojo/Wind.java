@@ -3,7 +3,7 @@ package com.zino.mobilization.weatheryamblz.model.pojo;
 
 import com.google.gson.annotations.SerializedName;
 
-class Wind {
+public class Wind {
 
     @SerializedName("speed")
     private Double speed;

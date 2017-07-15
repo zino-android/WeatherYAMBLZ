@@ -3,7 +3,7 @@ package com.zino.mobilization.weatheryamblz.model.pojo;
 import com.google.gson.annotations.SerializedName;
 
 
-class Coord {
+public class Coord {
 
     @SerializedName("lon")
     private Double lon;
