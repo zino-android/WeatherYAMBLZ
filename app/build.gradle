@@ -60,4 +60,10 @@ dependencies {
 
     compile "com.android.support:support-v4:$rootProject.support_version"
     testCompile "junit:junit:$rootProject.junit_version"
+
+    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit_version"
+    compile "io.reactivex.rxjava2:rxjava:$rootProject.rxjava_version"
+    compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroid_version"
 }

@@ -31,4 +31,7 @@ ext {
     min_sdk_version = 19
     target_sdk_version = 26
     moxy_version = '1.5.3'
+    retrofit_version = '2.3.0'
+    rxjava_version = '2.1.1'
+    rxandroid_version = '2.0.1'
 }
