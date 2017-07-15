@@ -71,6 +71,17 @@ dependencies {
     compile "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit_version"
     compile "io.reactivex.rxjava2:rxjava:$rootProject.rxjava_version"
     compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroid_version"
+
+    compile "com.evernote:android-job:$rootProject.androidjob_version"
+
+    compile "com.google.android.gms:play-services-gcm:$rootProject.play_services_version"
+
+    compile "com.facebook.stetho:stetho:$rootProject.stetho_version"
+    compile "com.facebook.stetho:stetho-okhttp3:$rootProject.stetho_version"
+
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary_version"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leak_canary_version"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leak_canary_version"
 }
 
 apply plugin: 'me.tatarka.retrolambda'
