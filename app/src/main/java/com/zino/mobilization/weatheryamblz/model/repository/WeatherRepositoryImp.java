@@ -24,14 +24,16 @@ public class WeatherRepositoryImp implements WeatherRepository {
 
     @Override
     public void getCurrentWeather(long cityId, String lang, OnCurrentWeatherLoadedListener listener) {
-        listener.onCurrentWeatherLoaded(restoreCurrentWeather());
+        if (checkIfCacheAvailable()) {
+            listener.onCurrentWeatherLoaded(restoreCurrentWeather());
+        }
 
          ApiInstance.getAPI()
-        .getCurrentWeather(524901, "ad0dae19ea9cd24058581481b3ce84ce", "ru", "metric")
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(weatherResponse -> {weatherLoaded(weatherResponse, listener);},
-                throwable -> {onError(throwable, listener);});
+            .getCurrentWeather(cityId, "ad0dae19ea9cd24058581481b3ce84ce", lang, "metric")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(weatherResponse -> {weatherLoaded(weatherResponse, listener);},
+                    throwable -> {onError(throwable, listener);});
     }
 
 
@@ -104,6 +106,12 @@ public class WeatherRepositoryImp implements WeatherRepository {
         }
 
         return new Gson().fromJson(sb.toString(), WeatherResponse.class);
+    }
+
+
+    private boolean checkIfCacheAvailable() {
+        File file = new File(WeatherApplication.context.getFilesDir(), CURRENT_WEATHER_FILE_NAME);
+        return file.exists();
     }
 
 }

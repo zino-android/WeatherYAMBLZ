@@ -10,5 +10,11 @@
     <string name="action_about">About</string>
     <string name="action_weather">Weather</string>
     <string name="version">Version: %s</string>
+    <string name="pressure">%s hPa\nPressure</string>
+    <string name="humidity">%s %%\nHumidity</string>
+    <string name="visibility">%s km\nVisibility</string>
+
+
+
 
 </resources>

@@ -27,6 +27,7 @@ public class WeatherApplication extends Application {
         LeakCanary.install(this);
 
         JobManager.create(this).addJobCreator(new WeatherJobCreator());
+        WeatherSyncJob.scheduleJob();
         context = getApplicationContext();
 
         Stetho.initializeWithDefaults(this);

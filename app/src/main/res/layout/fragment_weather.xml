@@ -1,16 +1,148 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_refresh_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
+    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragments.WeatherFragment">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/temp"
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="@android:color/black"
-        android:textSize="26sp"
-        android:text="" />
+        tools:context=".ui.fragments.WeatherFragment">
 
-</FrameLayout>
+
+        <ImageView
+            android:id="@+id/weather_image_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/sun"
+            android:padding="16dp"
+            android:layout_margin="16dp"
+            />
+
+        <TextView
+            android:id="@+id/temp_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/weather_image_view"
+            android:layout_margin="0dp"
+            android:text="17 C"
+            android:layout_alignTop="@+id/weather_image_view"
+            android:textColor="@android:color/black"
+            android:textSize="72sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/min_temp_text_view"
+            android:text="12 C"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/temp_text_view"
+            android:layout_toRightOf="@+id/weather_image_view"
+            android:drawableLeft="@drawable/arrow_down"
+
+
+            />
+
+        <TextView
+            android:id="@+id/max_temp_text_view"
+            android:text="19 C"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/temp_text_view"
+            android:layout_toRightOf="@+id/min_temp_text_view"
+            android:layout_marginLeft="16dp"
+            android:drawableLeft="@drawable/arrow_up"
+
+
+            />
+
+
+
+        <TextView
+            android:id="@+id/description_text_view"
+            android:text="мстсмт"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_below="@+id/min_temp_text_view"
+            android:layout_toEndOf="@+id/weather_image_view"
+            android:layout_alignBottom="@+id/weather_image_view"
+
+             />
+
+        <LinearLayout
+            android:layout_below="@+id/description_text_view"
+            android:layout_margin="16dp"
+            android:weightSum="3"
+            android:padding="8dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+
+            <TextView
+                android:id="@+id/humidity_text_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textSize="16dp"
+                android:gravity="center_horizontal|bottom"
+                android:drawableTop="@drawable/water"
+                />
+
+
+            <TextView
+                android:id="@+id/visibility_text_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textSize="16dp"
+                android:gravity="center_horizontal|bottom"
+                android:drawableTop="@drawable/eye"
+                />
+
+
+            <TextView
+                android:id="@+id/pressure_text_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textSize="16dp"
+                android:gravity="center_horizontal|bottom"
+                android:drawableTop="@drawable/barometer"
+                />
+
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

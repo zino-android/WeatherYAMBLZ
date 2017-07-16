@@ -1,6 +1,8 @@
 package com.zino.mobilization.weatheryamblz.presentation.presenter;
 
 
+import android.util.Log;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
@@ -31,5 +33,9 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> implements OnCur
     @Override
     public void onError() {
 
+    }
+
+    public void onRefresh() {
+        weatherRepository.getCurrentWeather(524901, "ru", this);
     }
 }

@@ -29,6 +29,8 @@ class WeatherSyncJob extends Job {
         new JobRequest.Builder(TAG)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                 .setPeriodic(900_000L)
+                .setPersisted(true)
+                .setUpdateCurrent(true)
                 .build()
                 .schedule();
     }
