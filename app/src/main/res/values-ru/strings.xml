@@ -9,6 +9,7 @@
     <string name="pressure">%s гПа\nДавление</string>
     <string name="humidity">%s %%\nВлажность</string>
     <string name="visibility">%s км\nВидимость</string>
+    <string name="wind">Скорость ветра: %s м/с</string>
 
 
     <string name="manually">Вручную</string>

@@ -15,6 +15,7 @@
     <string name="pressure">%s hPa\nPressure</string>
     <string name="humidity">%s %%\nHumidity</string>
     <string name="visibility">%s km\nVisibility</string>
+    <string name="wind">Wind speed: %s m/s</string>
 
     <string name="manually">Manually</string>
     <string name="fifteen_min">15 min</string>

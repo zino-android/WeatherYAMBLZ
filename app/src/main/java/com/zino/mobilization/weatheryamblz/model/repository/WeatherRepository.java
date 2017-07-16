@@ -8,4 +8,6 @@ public interface WeatherRepository {
 
     void getCurrentWeather(long cityId, String lang, OnCurrentWeatherLoadedListener listener);
 
+    void getCurrentWeatherFromCache(OnCurrentWeatherLoadedListener listener);
+
 }

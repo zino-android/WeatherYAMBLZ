@@ -1,6 +1,10 @@
 package com.zino.mobilization.weatheryamblz.ui.fragments;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +22,7 @@ import com.zino.mobilization.weatheryamblz.R;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 import com.zino.mobilization.weatheryamblz.presentation.presenter.WeatherPresenter;
 import com.zino.mobilization.weatheryamblz.presentation.view.WeatherView;
+import com.zino.mobilization.weatheryamblz.ui.service.UpdateWeatherService;
 import com.zino.mobilization.weatheryamblz.ui.view.WindView;
 import com.zino.mobilization.weatheryamblz.utils.Utils;
 
@@ -60,9 +65,12 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
     @BindView(R.id.visibility_text_view)
     TextView visibilityTextView;
 
+    @BindView(R.id.wind_text_view)
+    TextView windSpeedTextView;
+
     private boolean isCelsius = true;
 
-
+    private BroadcastReceiver br;
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -90,6 +98,20 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+
+        br = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(UpdateWeatherService.WEATHER_LOADED_ACTION)) {
+                    presenter.onWeatherLoadedFromService();
+                    Log.i("kkk", "onReceive: ");
+                }
+            }
+        };
+        // создаем фильтр для BroadcastReceiver
+        IntentFilter intentFilter = new IntentFilter(UpdateWeatherService.WEATHER_LOADED_ACTION);
+        // регистрируем (включаем) BroadcastReceiver
+        getActivity().registerReceiver(br, intentFilter);
+
 
     }
 
@@ -134,6 +156,10 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
         visibilityTextView.setText(String.format(getResources().getString(R.string.visibility),
                 String.valueOf(Utils.metersToKm(weatherResponse.getVisibility()))));
 
+        windSpeedTextView.setText(String.format(getResources().getString(R.string.wind),
+                String.valueOf(weatherResponse.getWind().getSpeed())));
+
+
     }
 
     @Override
@@ -163,5 +189,11 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
         pressureTextView = null;
         humidityTextView = null;
         visibilityTextView = null;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(br);
     }
 }

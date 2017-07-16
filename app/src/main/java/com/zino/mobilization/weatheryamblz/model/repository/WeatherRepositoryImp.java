@@ -114,4 +114,12 @@ public class WeatherRepositoryImp implements WeatherRepository {
         return file.exists();
     }
 
+    @Override
+    public void getCurrentWeatherFromCache(OnCurrentWeatherLoadedListener listener) {
+        if (checkIfCacheAvailable()) {
+            listener.onCurrentWeatherLoaded(restoreCurrentWeather());
+        } else {
+            listener.onError();
+        }
+    }
 }

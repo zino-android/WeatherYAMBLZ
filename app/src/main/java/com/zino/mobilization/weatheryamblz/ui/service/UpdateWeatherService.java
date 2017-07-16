@@ -16,6 +16,8 @@ import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepositoryImp
 
 public class UpdateWeatherService extends Service implements OnCurrentWeatherLoadedListener {
 
+    public final static String WEATHER_LOADED_ACTION = "com.zino.mobilization.weather.weather_loaded";
+
     public void onCreate() {
         super.onCreate();
         Log.i("kkk", "onCreate: ");
@@ -47,6 +49,8 @@ public class UpdateWeatherService extends Service implements OnCurrentWeatherLoa
     public void onCurrentWeatherLoaded(WeatherResponse weatherResponse) {
         //TODO: send broadcast
         Log.i("kkk", "onCurrentWeatherLoaded: "  + weatherResponse.getMain().getTemp() + " C");
+        Intent intent = new Intent(WEATHER_LOADED_ACTION);
+        sendBroadcast(intent);
         stopSelf();
     }
 

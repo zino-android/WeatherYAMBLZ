@@ -13,6 +13,8 @@ import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepository;
 import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepositoryImp;
 import com.zino.mobilization.weatheryamblz.presentation.view.WeatherView;
 
+import java.util.Locale;
+
 
 @InjectViewState
 public class WeatherPresenter extends MvpPresenter<WeatherView> implements OnCurrentWeatherLoadedListener {
@@ -22,10 +24,10 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> implements OnCur
     public WeatherPresenter() {
         weatherRepository = new WeatherRepositoryImp();
 
-        weatherRepository.getCurrentWeather(524901, "ru", this);
-        Log.i("ppppp", "WeatherPresenter: constructor");
-        boolean isCelsium = SharedPreferencesHelper.isCelsius(WeatherApplication.context);
-        if (isCelsium) {
+
+        weatherRepository.getCurrentWeather(524901, Locale.getDefault().getLanguage(), this);
+        boolean isCelsius = SharedPreferencesHelper.isCelsius(WeatherApplication.context);
+        if (isCelsius) {
             getViewState().setCelsius(true);
         } else {
             getViewState().setCelsius(false);
@@ -45,6 +47,10 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> implements OnCur
     }
 
     public void onRefresh() {
-        weatherRepository.getCurrentWeather(524901, "ru", this);
+        weatherRepository.getCurrentWeather(524901, Locale.getDefault().getLanguage(), this);
+    }
+
+    public void onWeatherLoadedFromService() {
+        weatherRepository.getCurrentWeatherFromCache(this);
     }
 }
