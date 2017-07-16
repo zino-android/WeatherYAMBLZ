@@ -1,15 +1,161 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="false"
     tools:context=".ui.fragments.SettingsFragment">
 
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="@android:color/black"
-        android:textSize="26sp"
-        android:text="@string/action_settings" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <Button
+                android:id="@+id/fahrenheit_button"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_width="64dp"
+                android:layout_height="48dp"
+                android:background="@drawable/fahrenheit_background"
+                android:text="@string/fahrenheit"
+                />
+
+            <Button
+                android:id="@+id/celsius_button"
+                android:layout_toLeftOf="@+id/fahrenheit_button"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="64dp"
+                android:layout_height="48dp"
+                android:background="@drawable/celsius_background"
+                android:text="@string/celsius"
+                />
+
+            <TextView
+                android:id="@+id/temp_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:gravity="center_vertical"
+                android:layout_alignParentLeft="true"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:layout_toLeftOf="@+id/celsius_button"
+                android:layout_alignTop="@+id/celsius_button"
+                android:layout_alignBottom="@+id/celsius_button"
+                android:text="Температура"
+                />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/time_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:layout_alignParentLeft="true"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:text="@string/update_time"
+                />
+
+            <RadioGroup
+                android:id="@+id/time_radio_group"
+                android:layout_below="@+id/time_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/radio_manually"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:textSize="18sp"
+                    android:text="@string/manually"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radio_fifteen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:textSize="18sp"
+                    android:text="@string/fifteen_min"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radio_thirteen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:textSize="18sp"
+                    android:text="@string/thirteen_min"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radio_one_hour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:textSize="18sp"
+                    android:text="@string/one_hour"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radio_three_hour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:textSize="18sp"
+                    android:text="@string/three_hour"
+                    />
+
+
+
+
+            </RadioGroup>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</ScrollView>

@@ -1,5 +1,6 @@
 package com.zino.mobilization.weatheryamblz.ui.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("kkk", "onClick: ");
                 getSupportFragmentManager().popBackStack();
             }
         });
@@ -61,13 +63,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        Log.i("kkkk", "onNavigateUp: ");
-        getSupportFragmentManager().popBackStack();
-        return super.onNavigateUp();
 
-    }
 
     @Override
     public void onBackPressed() {
@@ -104,20 +100,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void setTitle(String title) {
         getSupportActionBar().setTitle(title);
-    }
-
-    @Override
-    public void setMainScreen(boolean isMainScreen) {
-        if (isMainScreen) {
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            toggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_UNLOCKED);
-            toggle.setDrawerIndicatorEnabled(true);
-            toggle.syncState();
-        } else {
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        }
     }
 
 

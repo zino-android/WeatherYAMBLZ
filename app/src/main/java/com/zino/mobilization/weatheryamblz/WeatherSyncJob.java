@@ -9,7 +9,7 @@ import com.evernote.android.job.JobRequest;
 import com.zino.mobilization.weatheryamblz.ui.service.UpdateWeatherService;
 
 
-class WeatherSyncJob extends Job {
+public class WeatherSyncJob extends Job {
 
     public static final String TAG = "weather_update_tag";
 
@@ -25,11 +25,11 @@ class WeatherSyncJob extends Job {
         return Result.SUCCESS;
     }
 
-    public static void scheduleJob() {
+    public static void scheduleJob(long period) {
         new JobRequest.Builder(TAG)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                .setPeriodic(900_000L)
-                .setPersisted(true)
+                .setPeriodic(period, 300_000L)
+                .setPersisted(false)
                 .setUpdateCurrent(true)
                 .build()
                 .schedule();

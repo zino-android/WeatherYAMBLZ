@@ -45,7 +45,6 @@ public class AboutFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         onNavigationChanged.setTitle(getResources().getString(R.string.action_about));
-        onNavigationChanged.setMainScreen(false);
         setVersionName();
     }
 

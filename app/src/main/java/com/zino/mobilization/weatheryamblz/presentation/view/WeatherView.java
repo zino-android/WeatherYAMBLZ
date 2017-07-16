@@ -15,4 +15,6 @@ public interface WeatherView extends MvpView {
 
     void hideLoading();
 
+    void setCelsius(boolean celsius);
+
 }

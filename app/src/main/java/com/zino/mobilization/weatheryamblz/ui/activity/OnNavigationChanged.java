@@ -8,5 +8,4 @@ public interface OnNavigationChanged {
 
     void setTitle(String title);
 
-    void setMainScreen(boolean isMainScreen);
 }

@@ -60,6 +60,8 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
     @BindView(R.id.visibility_text_view)
     TextView visibilityTextView;
 
+    private boolean isCelsius = true;
+
 
 
     public WeatherFragment() {
@@ -80,7 +82,6 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         onNavigationChanged.setTitle(getResources().getString(R.string.action_weather));
-        onNavigationChanged.setMainScreen(true);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -94,9 +95,30 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
 
     @Override
     public void showWeather(WeatherResponse weatherResponse) {
-        tempTextView.setText(Utils.formatTemperature(weatherResponse.getMain().getTemp()));
-        minTempTextView.setText(Utils.formatTemperature(weatherResponse.getMain().getTempMin()));
-        maxTempTextView.setText(Utils.formatTemperature(weatherResponse.getMain().getTempMax()));
+        double temp = 0;
+        if (isCelsius) {
+            temp = weatherResponse.getMain().getTemp();
+        } else {
+            temp = Utils.celsiusToFahrenheit(weatherResponse.getMain().getTemp());
+        }
+        tempTextView.setText(Utils.formatTemperature(temp));
+
+        double minTemp = 0;
+        if (isCelsius) {
+            minTemp = weatherResponse.getMain().getTempMin();
+        } else {
+            minTemp = Utils.celsiusToFahrenheit(weatherResponse.getMain().getTempMin());
+        }
+        minTempTextView.setText(Utils.formatTemperature(minTemp));
+
+        double maxTemp = 0;
+        if (isCelsius) {
+            maxTemp = weatherResponse.getMain().getTempMax();
+        } else {
+            maxTemp = Utils.celsiusToFahrenheit(weatherResponse.getMain().getTempMax());
+        }
+
+        maxTempTextView.setText(Utils.formatTemperature(maxTemp));
         descriptionTextView.setText(weatherResponse.getWeather().get(0).getDescription());
 
         weatherImageView.setImageDrawable(
@@ -109,7 +131,7 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
         humidityTextView.setText(String.format(getResources().getString(R.string.humidity),
                 String.valueOf(weatherResponse.getMain().getHumidity())));
 
-        visibilityTextView.setText(String.format(getResources().getString(R.string.humidity),
+        visibilityTextView.setText(String.format(getResources().getString(R.string.visibility),
                 String.valueOf(Utils.metersToKm(weatherResponse.getVisibility()))));
 
     }
@@ -122,6 +144,11 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
     @Override
     public void hideLoading() {
 
+    }
+
+    @Override
+    public void setCelsius(boolean celsius) {
+        isCelsius = celsius;
     }
 
     @Override

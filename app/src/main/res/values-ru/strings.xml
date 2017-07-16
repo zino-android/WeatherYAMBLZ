@@ -10,4 +10,12 @@
     <string name="humidity">%s %%\nВлажность</string>
     <string name="visibility">%s км\nВидимость</string>
 
+
+    <string name="manually">Вручную</string>
+    <string name="fifteen_min">15 мин</string>
+    <string name="thirteen_min">30 мин</string>
+    <string name="one_hour">1 час</string>
+    <string name="three_hour">3 часа</string>
+    <string name="update_time">Время обновления</string>
+
 </resources>

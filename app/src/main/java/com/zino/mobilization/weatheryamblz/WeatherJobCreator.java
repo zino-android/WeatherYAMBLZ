@@ -7,7 +7,7 @@ import com.evernote.android.job.JobCreator;
  * Created by Алексей on 15.07.2017.
  */
 
-class WeatherJobCreator implements JobCreator {
+public class WeatherJobCreator implements JobCreator {
     @Override
     public Job create(String tag) {
         switch (tag) {

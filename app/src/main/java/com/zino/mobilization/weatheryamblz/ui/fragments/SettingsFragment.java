@@ -1,22 +1,46 @@
 package com.zino.mobilization.weatheryamblz.ui.fragments;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.zino.mobilization.weatheryamblz.R;
+import com.zino.mobilization.weatheryamblz.presentation.presenter.SettingsPresenter;
+import com.zino.mobilization.weatheryamblz.presentation.view.SettingsView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SettingsFragment extends BaseFragment {
+public class SettingsFragment extends BaseFragment implements SettingsView {
 
+    @InjectPresenter
+    SettingsPresenter presenter;
+
+    @BindView(R.id.fahrenheit_button)
+    Button fahrenheitButton;
+    @BindView(R.id.celsius_button)
+    Button celsiusButton;
+
+    @BindView(R.id.time_radio_group)
+    RadioGroup timeRadioGroup;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -35,7 +59,56 @@ public class SettingsFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         onNavigationChanged.setTitle(getResources().getString(R.string.action_settings));
-        onNavigationChanged.setMainScreen(false);
 
+
+        timeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int id) {
+                presenter.onTimeCheckedChanged(id);
+            }
+        });
+
+
+
+    }
+
+    @OnClick(R.id.celsius_button)
+    void onCelsiusButtonClicked() {
+        presenter.onCelsiusButtonClicked();
+    }
+
+    @OnClick(R.id.fahrenheit_button)
+    void onFahrenheitButtonClicked() {
+        presenter.onFahrenheitButtonClicked();
+    }
+
+    @Override
+    public void setFahrenheitButtonActive() {
+        celsiusButton.setEnabled(true);
+        fahrenheitButton.setEnabled(false);
+        fahrenheitButton.setTextColor(Color.WHITE);
+        celsiusButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
+
+    @Override
+    public void setCelsiusButtonActive() {
+        celsiusButton.setEnabled(false);
+        fahrenheitButton.setEnabled(true);
+        celsiusButton.setTextColor(Color.WHITE);
+        fahrenheitButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
+
+    @Override
+    public void checkRadioButton(int id) {
+
+        timeRadioGroup.check(id);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        fahrenheitButton = null;
+        celsiusButton = null;
+        timeRadioGroup = null;
     }
 }

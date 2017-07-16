@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.zino.mobilization.weatheryamblz.WeatherApplication;
+import com.zino.mobilization.weatheryamblz.model.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 import com.zino.mobilization.weatheryamblz.model.repository.OnCurrentWeatherLoadedListener;
 import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepository;
@@ -21,6 +23,13 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> implements OnCur
         weatherRepository = new WeatherRepositoryImp();
 
         weatherRepository.getCurrentWeather(524901, "ru", this);
+        Log.i("ppppp", "WeatherPresenter: constructor");
+        boolean isCelsium = SharedPreferencesHelper.isCelsius(WeatherApplication.context);
+        if (isCelsium) {
+            getViewState().setCelsius(true);
+        } else {
+            getViewState().setCelsius(false);
+        }
 
     }
 

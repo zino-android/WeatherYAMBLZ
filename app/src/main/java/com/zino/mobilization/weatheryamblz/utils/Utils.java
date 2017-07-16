@@ -47,4 +47,7 @@ public class Utils {
         return meters / 1000;
     }
 
+    public static double celsiusToFahrenheit(double celsius) {
+        return (9f/5) * celsius + 32;
+    }
 }
