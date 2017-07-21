@@ -35,6 +35,9 @@ public class Utils {
                 return R.drawable.thunderstorm;
             case "13d":
             case "13n":
+                return R.drawable.snow;
+            case "50d":
+            case "50n":
                 return R.drawable.mist;
             default:
                 return R.drawable.sun;
