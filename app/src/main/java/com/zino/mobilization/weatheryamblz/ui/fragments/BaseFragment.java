@@ -1,18 +1,23 @@
 package com.zino.mobilization.weatheryamblz.ui.fragments;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.zino.mobilization.weatheryamblz.ui.activity.OnNavigationChanged;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
-/**
- * Created by Алексей on 14.07.2017.
- */
+
+
 
 public class BaseFragment extends MvpAppCompatFragment {
 
     protected OnNavigationChanged onNavigationChanged;
+    protected Unbinder unbinder;
 
     @Override
     public void onAttach(Activity activity) {
@@ -21,4 +26,16 @@ public class BaseFragment extends MvpAppCompatFragment {
 
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        unbinder = ButterKnife.bind(this, view);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

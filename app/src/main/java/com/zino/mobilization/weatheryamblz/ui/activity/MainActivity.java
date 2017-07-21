@@ -17,6 +17,7 @@ import com.zino.mobilization.weatheryamblz.ui.fragments.WeatherFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnNavigationChanged {
@@ -30,11 +31,13 @@ public class MainActivity extends AppCompatActivity
 
     private ActionBarDrawerToggle toggle;
 
+    private Unbinder unbinder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -91,5 +94,9 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setTitle(title);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
 }

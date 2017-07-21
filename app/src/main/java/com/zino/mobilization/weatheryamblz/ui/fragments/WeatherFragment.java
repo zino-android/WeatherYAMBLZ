@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.zino.mobilization.weatheryamblz.ui.service.UpdateWeatherService;
 import com.zino.mobilization.weatheryamblz.utils.Utils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 public class WeatherFragment extends BaseFragment implements WeatherView {
@@ -82,7 +80,6 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
         onNavigationChanged.setTitle(getResources().getString(R.string.action_weather));
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -168,19 +165,7 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
         isCelsius = celsius;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        weatherImageView = null;
-        tempTextView = null;
-        minTempTextView = null;
-        maxTempTextView = null;
-        descriptionTextView = null;
-        swipeRefreshLayout = null;
-        pressureTextView = null;
-        humidityTextView = null;
-        visibilityTextView = null;
-    }
+
 
     @Override
     public void onPause() {

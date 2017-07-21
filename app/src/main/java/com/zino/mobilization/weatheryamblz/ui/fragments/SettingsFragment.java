@@ -17,7 +17,6 @@ import com.zino.mobilization.weatheryamblz.presentation.presenter.SettingsPresen
 import com.zino.mobilization.weatheryamblz.presentation.view.SettingsView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -49,7 +48,6 @@ public class SettingsFragment extends BaseFragment implements SettingsView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
         onNavigationChanged.setTitle(getResources().getString(R.string.action_settings));
 
 
@@ -92,15 +90,8 @@ public class SettingsFragment extends BaseFragment implements SettingsView {
 
     @Override
     public void checkRadioButton(int id) {
-
         timeRadioGroup.check(id);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        fahrenheitButton = null;
-        celsiusButton = null;
-        timeRadioGroup = null;
-    }
+
 }

@@ -12,7 +12,6 @@ import com.zino.mobilization.weatheryamblz.BuildConfig;
 import com.zino.mobilization.weatheryamblz.R;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class AboutFragment extends BaseFragment {
 
@@ -39,7 +38,6 @@ public class AboutFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
         onNavigationChanged.setTitle(getResources().getString(R.string.action_about));
         setVersionName();
     }
