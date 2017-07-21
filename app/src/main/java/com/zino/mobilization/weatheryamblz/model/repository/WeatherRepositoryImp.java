@@ -29,10 +29,11 @@ public class WeatherRepositoryImp implements WeatherRepository {
         }
 
          ApiInstance.getAPI()
-            .getCurrentWeather(cityId, "ad0dae19ea9cd24058581481b3ce84ce", lang, "metric")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(weatherResponse -> {weatherLoaded(weatherResponse, listener);},
+                 .getCurrentWeather(cityId, "ad0dae19ea9cd24058581481b3ce84ce", lang, "metric")
+                 .doOnNext(this::saveCurrentWeather)
+                 .subscribeOn(Schedulers.io())
+                 .observeOn(AndroidSchedulers.mainThread())
+                 .subscribe(weatherResponse -> {weatherLoaded(weatherResponse, listener);},
                     throwable -> {onError(throwable, listener);});
     }
 
@@ -40,7 +41,6 @@ public class WeatherRepositoryImp implements WeatherRepository {
 
     private void weatherLoaded(WeatherResponse weatherResponse, OnCurrentWeatherLoadedListener listener) {
         listener.onCurrentWeatherLoaded(weatherResponse);
-        saveCurrentWeather(weatherResponse);
     }
 
     private void onError(Throwable throwable, OnCurrentWeatherLoadedListener listener) {
