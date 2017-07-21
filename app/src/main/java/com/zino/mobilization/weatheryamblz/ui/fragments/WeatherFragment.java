@@ -62,7 +62,13 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
 
     private boolean isCelsius = true;
 
-    private BroadcastReceiver br;
+    private BroadcastReceiver br = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(UpdateWeatherService.WEATHER_LOADED_ACTION)) {
+                presenter.onWeatherLoadedFromService();
+            }
+        }
+    };;
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -90,17 +96,16 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
             }
         });
 
-        br = new BroadcastReceiver() {
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(UpdateWeatherService.WEATHER_LOADED_ACTION)) {
-                    presenter.onWeatherLoadedFromService();
-                }
-            }
-        };
+
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         IntentFilter intentFilter = new IntentFilter(UpdateWeatherService.WEATHER_LOADED_ACTION);
         getActivity().registerReceiver(br, intentFilter);
-
-
     }
 
     @Override
@@ -146,8 +151,6 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
 
         windSpeedTextView.setText(String.format(getResources().getString(R.string.wind),
                 String.valueOf(weatherResponse.getWind().getSpeed())));
-
-
     }
 
     @Override
