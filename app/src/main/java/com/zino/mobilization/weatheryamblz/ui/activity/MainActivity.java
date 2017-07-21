@@ -1,27 +1,23 @@
-package com.zino.mobilization.weatheryamblz;
+package com.zino.mobilization.weatheryamblz.ui.activity;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
-import com.zino.mobilization.weatheryamblz.fragments.AboutFragment;
-import com.zino.mobilization.weatheryamblz.fragments.SettingsFragment;
-import com.zino.mobilization.weatheryamblz.fragments.WeatherFragment;
+
+import com.zino.mobilization.weatheryamblz.R;
+import com.zino.mobilization.weatheryamblz.ui.fragments.AboutFragment;
+import com.zino.mobilization.weatheryamblz.ui.fragments.SettingsFragment;
+import com.zino.mobilization.weatheryamblz.ui.fragments.WeatherFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnNavigationChanged {
@@ -35,11 +31,13 @@ public class MainActivity extends AppCompatActivity
 
     private ActionBarDrawerToggle toggle;
 
+    private Unbinder unbinder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -56,6 +54,8 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -95,18 +95,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void setMainScreen(boolean isMainScreen) {
-        if (isMainScreen) {
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            toggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_UNLOCKED);
-            toggle.setDrawerIndicatorEnabled(true);
-            toggle.syncState();
-        } else {
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        }
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
-
-
 }

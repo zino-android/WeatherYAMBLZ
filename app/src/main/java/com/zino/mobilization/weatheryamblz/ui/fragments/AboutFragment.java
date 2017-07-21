@@ -1,29 +1,18 @@
-package com.zino.mobilization.weatheryamblz.fragments;
+package com.zino.mobilization.weatheryamblz.ui.fragments;
 
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.zino.mobilization.weatheryamblz.BaseFragment;
 import com.zino.mobilization.weatheryamblz.BuildConfig;
 import com.zino.mobilization.weatheryamblz.R;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AboutFragment extends BaseFragment {
 
     @BindView(R.id.version_text_view)
@@ -49,9 +38,7 @@ public class AboutFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
         onNavigationChanged.setTitle(getResources().getString(R.string.action_about));
-        onNavigationChanged.setMainScreen(false);
         setVersionName();
     }
 

@@ -1,12 +1,22 @@
 <resources>
     <string name="app_name">Погода.Мобилизация</string>
 
-    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
-    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
     <string name="action_settings">Настройки</string>
     <string name="action_about">О приложении</string>
     <string name="action_weather">Погода</string>
     <string name="version">Версия: %s</string>
+    <string name="pressure">%s гПа\nДавление</string>
+    <string name="humidity">%s %%\nВлажность</string>
+    <string name="visibility">%s км\nВидимость</string>
+    <string name="wind">Скорость ветра: %s м/с</string>
+
+
+    <string name="manually">Вручную</string>
+    <string name="fifteen_min">15 мин</string>
+    <string name="thirteen_min">30 мин</string>
+    <string name="one_hour">1 час</string>
+    <string name="three_hour">3 часа</string>
+    <string name="update_time">Время обновления</string>
 
 </resources>
