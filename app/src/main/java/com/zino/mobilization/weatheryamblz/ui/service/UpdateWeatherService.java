@@ -10,9 +10,8 @@ import com.zino.mobilization.weatheryamblz.model.repository.OnCurrentWeatherLoad
 import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepository;
 import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepositoryImp;
 
-/**
- * Created by Алексей on 15.07.2017.
- */
+import java.util.Locale;
+
 
 public class UpdateWeatherService extends Service implements OnCurrentWeatherLoadedListener {
 
@@ -20,18 +19,15 @@ public class UpdateWeatherService extends Service implements OnCurrentWeatherLoa
 
     public void onCreate() {
         super.onCreate();
-        Log.i("kkk", "onCreate: ");
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("kkk", "onStartCommand: ");
         loadWeather();
         return super.onStartCommand(intent, flags, startId);
     }
 
     public void onDestroy() {
         super.onDestroy();
-        Log.i("kkk", "onDestroy: ");
     }
 
     public IBinder onBind(Intent intent) {
@@ -40,14 +36,12 @@ public class UpdateWeatherService extends Service implements OnCurrentWeatherLoa
 
     void loadWeather() {
        WeatherRepository weatherRepository = new WeatherRepositoryImp();
-        //http://api.openweathermap.org/data/2.5/weather?id=524901&appid=ad0dae19ea9cd24058581481b3ce84ce&lang=ru&units=metric
 
-        weatherRepository.getCurrentWeather(524901, "ru", this);
+        weatherRepository.getCurrentWeather(524901, Locale.getDefault().getLanguage(), this);
     }
 
     @Override
     public void onCurrentWeatherLoaded(WeatherResponse weatherResponse) {
-        //TODO: send broadcast
         Log.i("kkk", "onCurrentWeatherLoaded: "  + weatherResponse.getMain().getTemp() + " C");
         Intent intent = new Intent(WEATHER_LOADED_ACTION);
         sendBroadcast(intent);

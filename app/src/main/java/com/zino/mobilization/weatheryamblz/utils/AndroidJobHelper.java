@@ -1,8 +1,6 @@
 package com.zino.mobilization.weatheryamblz.utils;
 
 import android.content.Context;
-import android.util.Log;
-
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.zino.mobilization.weatheryamblz.WeatherJobCreator;
@@ -10,9 +8,7 @@ import com.zino.mobilization.weatheryamblz.WeatherSyncJob;
 
 import java.util.Set;
 
-/**
- * Created by Алексей on 16.07.2017.
- */
+
 
 public class AndroidJobHelper {
 
@@ -20,7 +16,6 @@ public class AndroidJobHelper {
         JobManager.create(context).addJobCreator(new WeatherJobCreator());
         Set<JobRequest> jobRequests = JobManager.instance().getAllJobRequestsForTag(WeatherSyncJob.TAG);
         if (jobRequests.isEmpty()) {
-            Log.i("kkk", "onCreate: isEmpty");
             WeatherSyncJob.scheduleJob(period);
         }
     }

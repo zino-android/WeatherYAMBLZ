@@ -3,7 +3,6 @@ package com.zino.mobilization.weatheryamblz.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,6 @@ import com.zino.mobilization.weatheryamblz.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AboutFragment extends BaseFragment {
 
     @BindView(R.id.version_text_view)

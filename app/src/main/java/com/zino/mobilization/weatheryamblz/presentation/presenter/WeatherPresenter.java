@@ -1,7 +1,6 @@
 package com.zino.mobilization.weatheryamblz.presentation.presenter;
 
 
-import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;

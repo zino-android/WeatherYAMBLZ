@@ -1,9 +1,6 @@
 package com.zino.mobilization.weatheryamblz.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -45,14 +42,6 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new WeatherFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_weather);
         }
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i("kkk", "onClick: ");
-                getSupportFragmentManager().popBackStack();
-            }
-        });
 
         setSupportActionBar(toolbar);
         toggle = new ActionBarDrawerToggle(

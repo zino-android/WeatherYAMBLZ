@@ -2,9 +2,7 @@ package com.zino.mobilization.weatheryamblz.utils;
 
 import com.zino.mobilization.weatheryamblz.R;
 
-/**
- * Created by Алексей on 16.07.2017.
- */
+
 
 public class Utils {
 

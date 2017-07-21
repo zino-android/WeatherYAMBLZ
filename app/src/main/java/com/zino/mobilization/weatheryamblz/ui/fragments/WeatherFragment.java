@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,22 +16,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.zino.mobilization.weatheryamblz.BuildConfig;
 import com.zino.mobilization.weatheryamblz.R;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 import com.zino.mobilization.weatheryamblz.presentation.presenter.WeatherPresenter;
 import com.zino.mobilization.weatheryamblz.presentation.view.WeatherView;
 import com.zino.mobilization.weatheryamblz.ui.service.UpdateWeatherService;
-import com.zino.mobilization.weatheryamblz.ui.view.WindView;
 import com.zino.mobilization.weatheryamblz.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class WeatherFragment extends BaseFragment implements WeatherView {
 
     @InjectPresenter
@@ -103,13 +97,10 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(UpdateWeatherService.WEATHER_LOADED_ACTION)) {
                     presenter.onWeatherLoadedFromService();
-                    Log.i("kkk", "onReceive: ");
                 }
             }
         };
-        // создаем фильтр для BroadcastReceiver
         IntentFilter intentFilter = new IntentFilter(UpdateWeatherService.WEATHER_LOADED_ACTION);
-        // регистрируем (включаем) BroadcastReceiver
         getActivity().registerReceiver(br, intentFilter);
 
 
