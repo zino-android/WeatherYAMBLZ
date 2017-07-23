@@ -1,9 +1,11 @@
 package com.zino.mobilization.weatheryamblz.ui.fragments;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.zino.mobilization.weatheryamblz.ui.activity.OnNavigationChanged;
@@ -13,24 +15,30 @@ import butterknife.Unbinder;
 
 
 
-
-public class BaseFragment extends MvpAppCompatFragment {
+abstract public class BaseFragment extends MvpAppCompatFragment {
 
     protected OnNavigationChanged onNavigationChanged;
-    protected Unbinder unbinder;
+    private Unbinder unbinder;
+
+    protected abstract View createView(LayoutInflater inflater, ViewGroup container,
+                                       Bundle savedInstanceState);
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        onNavigationChanged = (OnNavigationChanged) activity;
-
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof OnNavigationChanged) {
+            onNavigationChanged = (OnNavigationChanged) context;
+        } else {
+            throw new ClassCastException(getClass().getName() + " must implement OnNavigationChanged");
+        }
     }
 
+    @Nullable
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = createView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override

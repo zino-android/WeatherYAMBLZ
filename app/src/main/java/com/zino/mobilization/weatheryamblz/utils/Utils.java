@@ -11,6 +11,7 @@ public class Utils {
     }
 
     public static int getImageIdByName(String name) {
+        if(name == null) return 0;
         switch (name) {
             case "01d":
             case "01n":
@@ -40,12 +41,12 @@ public class Utils {
             case "50n":
                 return R.drawable.mist;
             default:
-                return R.drawable.sun;
+                return 0;
         }
     }
 
     public static int metersToKm(int meters) {
-        return meters / 1000;
+        return Math.round((float) meters / 1000);
     }
 
     public static double celsiusToFahrenheit(double celsius) {

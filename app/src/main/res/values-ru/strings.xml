@@ -18,5 +18,7 @@
     <string name="one_hour">1 час</string>
     <string name="three_hour">3 часа</string>
     <string name="update_time">Время обновления</string>
+    <string name="temperature">Температура</string>
+    <string name="city">Город</string>
 
 </resources>
