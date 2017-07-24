@@ -74,6 +74,7 @@ public class SharedPreferencesHelper {
     }
 
     public static void setCurrentCity(Context context, City city) {
+        if(city == null) return;
         SharedPreferences sharedPreferences = getSharedPreferences(context);
         Gson gson = new Gson();
         String json = gson.toJson(city);
@@ -91,7 +92,7 @@ public class SharedPreferencesHelper {
         return RxSharedPreferences.create(sharedPreferences);
     }
 
-    private static City defaultCity(Context context) {
+    public static City defaultCity(Context context) {
         return new City(context.getString(R.string.moscow_full), 55.755826, 37.6173);
     }
 
