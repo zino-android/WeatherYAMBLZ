@@ -4,12 +4,16 @@ import android.support.annotation.IdRes;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.maps.model.LatLng;
 import com.zino.mobilization.weatheryamblz.R;
 import com.zino.mobilization.weatheryamblz.WeatherApplication;
 import com.zino.mobilization.weatheryamblz.model.SharedPreferencesHelper;
-import com.zino.mobilization.weatheryamblz.model.pojo.Weather;
+import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.presentation.view.SettingsView;
 import com.zino.mobilization.weatheryamblz.utils.AndroidJobHelper;
+
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Алексей on 16.07.2017.
@@ -17,6 +21,7 @@ import com.zino.mobilization.weatheryamblz.utils.AndroidJobHelper;
 
 @InjectViewState
 public class SettingsPresenter extends MvpPresenter<SettingsView> {
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public SettingsPresenter() {
         boolean isCelsius = SharedPreferencesHelper.isCelsius(WeatherApplication.context);
@@ -33,6 +38,14 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
         getViewState().checkRadioButton(id);
     }
 
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        compositeDisposable.add(
+                SharedPreferencesHelper.getCurrentCity(WeatherApplication.context)
+                .subscribe(city -> getViewState().setCurrentCityName(city.getName()))
+        );
+    }
 
     public void onCelsiusButtonClicked() {
         getViewState().setCelsiusButtonActive();
@@ -42,6 +55,16 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
     public void onFahrenheitButtonClicked() {
         getViewState().setFahrenheitButtonActive();
         SharedPreferencesHelper.setCelsius(WeatherApplication.context, false);
+    }
+
+    public void onCityClicked() {
+        getViewState().openChooseCity();
+    }
+
+    public void onCityChosen(Place place) {
+        LatLng latLngCity = place.getLatLng();
+        City city = new City(place.getAddress().toString(), latLngCity.latitude, latLngCity.longitude);
+        SharedPreferencesHelper.setCurrentCity(WeatherApplication.context, city);
     }
 
     public void onTimeCheckedChanged(@IdRes int id) {
@@ -74,6 +97,9 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
 
     }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
 }

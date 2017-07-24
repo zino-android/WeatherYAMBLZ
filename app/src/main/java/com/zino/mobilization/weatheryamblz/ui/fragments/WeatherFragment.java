@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.zino.mobilization.weatheryamblz.R;
+import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 import com.zino.mobilization.weatheryamblz.presentation.presenter.WeatherPresenter;
 import com.zino.mobilization.weatheryamblz.presentation.view.WeatherView;
@@ -64,6 +65,9 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
     @BindView(R.id.wind_text_view)
     TextView windSpeedTextView;
 
+    @BindView(R.id.city_text_view)
+    TextView cityTextView;
+
     private boolean isCelsius = true;
 
     private BroadcastReceiver br = new BroadcastReceiver() {
@@ -72,7 +76,7 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
                 presenter.onWeatherLoadedFromService();
             }
         }
-    };;
+    };
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -90,12 +94,9 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
         super.onViewCreated(view, savedInstanceState);
         onNavigationChanged.setTitle(getResources().getString(R.string.action_weather));
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                presenter.onRefresh();
-                swipeRefreshLayout.setRefreshing(false);
-            }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            presenter.onRefresh();
+            swipeRefreshLayout.setRefreshing(false);
         });
 
 
@@ -153,6 +154,11 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
 
         windSpeedTextView.setText(String.format(getResources().getString(R.string.wind),
                 String.valueOf(weatherResponse.getWind().getSpeed())));
+    }
+
+    @Override
+    public void showCity(City city) {
+        cityTextView.setText(city.getName());
     }
 
     @Override

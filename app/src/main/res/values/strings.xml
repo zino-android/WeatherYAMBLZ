@@ -26,6 +26,9 @@
     <string name="update_time">Update time</string>
     <string name="temperature">Temperature</string>
     <string name="city">City</string>
+    <string name="moscow">Moscow</string>
+    <string name="moscow_full">Moscow, Russia</string>
 
+    <string name="error_play_services_not_available">Google Play Services is not available: %1$s</string>
 
 </resources>

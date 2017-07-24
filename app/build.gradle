@@ -65,12 +65,14 @@ dependencies {
 
     compile "com.android.support:support-v4:$rootProject.support_version"
     testCompile "junit:junit:$rootProject.junit_version"
+    testCompile "org.hamcrest:hamcrest-library:$rootProject.hamcrest_version"
 
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofit_version"
     compile "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit_version"
     compile "io.reactivex.rxjava2:rxjava:$rootProject.rxjava_version"
     compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroid_version"
+    implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rxprefs_version"
 
     compile "com.evernote:android-job:$rootProject.androidjob_version"
 
@@ -82,6 +84,8 @@ dependencies {
     debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary_version"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leak_canary_version"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leak_canary_version"
-}
 
-apply plugin: 'me.tatarka.retrolambda'
+    compile "com.google.android.gms:play-services-places:$rootProject.play_services_version"
+
+    compile "com.jakewharton.timber:timber:$rootProject.timber_version"
+}

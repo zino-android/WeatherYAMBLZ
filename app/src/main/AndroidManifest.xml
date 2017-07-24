@@ -25,6 +25,10 @@
 
         <service android:name=".ui.service.UpdateWeatherService"/>
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCzU9xWiP1MuSjcDERvDa0KoPJJGPFto-Y" />
+
     </application>
 
 </manifest>

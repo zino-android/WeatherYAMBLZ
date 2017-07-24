@@ -12,7 +12,8 @@ public interface WeatherAPI {
 
 
     @GET("weather")
-    Observable<WeatherResponse> getCurrentWeather(@Query("id") long cityId,
+    Observable<WeatherResponse> getCurrentWeather(@Query("lat") double lat,
+                                                  @Query("lon") double lon,
                                                   @Query("appid") String apiKey,
                                                   @Query("lang") String lang,
                                                   @Query("units") String units);

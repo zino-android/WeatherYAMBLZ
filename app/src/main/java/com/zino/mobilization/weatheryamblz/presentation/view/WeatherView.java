@@ -1,6 +1,7 @@
 package com.zino.mobilization.weatheryamblz.presentation.view;
 
 import com.arellomobile.mvp.MvpView;
+import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 
 
@@ -14,5 +15,7 @@ public interface WeatherView extends MvpView {
     void hideLoading();
 
     void setCelsius(boolean celsius);
+
+    void showCity(City city);
 
 }
