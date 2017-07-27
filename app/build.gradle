@@ -91,5 +91,8 @@ dependencies {
 
     compile "com.google.android.gms:play-services-places:$rootProject.play_services_version"
 
+    compile "com.google.dagger:dagger:$rootProject.dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger_version"
+
     compile "com.jakewharton.timber:timber:$rootProject.timber_version"
 }

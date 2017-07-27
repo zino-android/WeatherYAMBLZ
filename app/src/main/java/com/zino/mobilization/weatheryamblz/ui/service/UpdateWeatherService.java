@@ -5,21 +5,33 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.zino.mobilization.weatheryamblz.WeatherApplication;
 import com.zino.mobilization.weatheryamblz.model.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
-import com.zino.mobilization.weatheryamblz.model.repository.OnCurrentWeatherLoadedListener;
 import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepository;
-import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepositoryImp;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
 
-public class UpdateWeatherService extends Service implements OnCurrentWeatherLoadedListener {
+import io.reactivex.disposables.Disposable;
+
+
+public class UpdateWeatherService extends Service {
 
     public final static String WEATHER_LOADED_ACTION = "com.zino.mobilization.weather.weather_loaded";
 
+    private Disposable disposable;
+
+    @Inject
+    SharedPreferencesHelper preferencesHelper;
+
+    @Inject
+    WeatherRepository weatherRepository;
+
     public void onCreate() {
         super.onCreate();
+        WeatherApplication.getAppComponent().inject(this);
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -29,6 +41,7 @@ public class UpdateWeatherService extends Service implements OnCurrentWeatherLoa
 
     public void onDestroy() {
         super.onDestroy();
+        disposable.dispose();
     }
 
     public IBinder onBind(Intent intent) {
@@ -36,27 +49,18 @@ public class UpdateWeatherService extends Service implements OnCurrentWeatherLoa
     }
 
     void loadWeather() {
-        WeatherRepository weatherRepository = new WeatherRepositoryImp();
-
-        SharedPreferencesHelper.getCurrentCity(getApplicationContext())
-                .subscribe(city -> weatherRepository.getCurrentWeather(
+        disposable = preferencesHelper.getCurrentCity()
+                .flatMap(city -> weatherRepository.getCurrentWeather(
                         city.getLatitude(),
                         city.getLongitude(),
-                        Locale.getDefault().getLanguage(),
-                        this)
-                );
+                        Locale.getDefault().getLanguage()))
+                .subscribe(this::onCurrentWeatherLoaded);
     }
 
-    @Override
     public void onCurrentWeatherLoaded(WeatherResponse weatherResponse) {
         Log.i("kkk", "onCurrentWeatherLoaded: "  + weatherResponse.getMain().getTemp() + " C");
         Intent intent = new Intent(WEATHER_LOADED_ACTION);
         sendBroadcast(intent);
         stopSelf();
-    }
-
-    @Override
-    public void onError() {
-
     }
 }

@@ -78,12 +78,6 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
         }
     };
 
-    public WeatherFragment() {
-        // Required empty public constructor
-    }
-
-
-
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_weather, container, false);
@@ -94,14 +88,7 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
         super.onViewCreated(view, savedInstanceState);
         onNavigationChanged.setTitle(getResources().getString(R.string.action_weather));
 
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            presenter.onRefresh();
-            swipeRefreshLayout.setRefreshing(false);
-        });
-
-
-
-
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefresh());
     }
 
     @Override
@@ -168,15 +155,13 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
 
     @Override
     public void hideLoading() {
-
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void setCelsius(boolean celsius) {
         isCelsius = celsius;
     }
-
-
 
     @Override
     public void onPause() {

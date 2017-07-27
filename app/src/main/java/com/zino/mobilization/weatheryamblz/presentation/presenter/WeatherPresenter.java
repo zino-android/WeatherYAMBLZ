@@ -7,74 +7,83 @@ import com.zino.mobilization.weatheryamblz.WeatherApplication;
 import com.zino.mobilization.weatheryamblz.model.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
-import com.zino.mobilization.weatheryamblz.model.repository.OnCurrentWeatherLoadedListener;
 import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepository;
-import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepositoryImp;
 import com.zino.mobilization.weatheryamblz.presentation.view.WeatherView;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 
 
 @InjectViewState
-public class WeatherPresenter extends MvpPresenter<WeatherView> implements OnCurrentWeatherLoadedListener {
+public class WeatherPresenter extends MvpPresenter<WeatherView> {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private WeatherRepository weatherRepository;
     private City currentCity;
 
+    @Inject
+    WeatherRepository weatherRepository;
+
+    @Inject
+    SharedPreferencesHelper preferencesHelper;
+
     public WeatherPresenter() {
-        weatherRepository = new WeatherRepositoryImp();
-
-
-        boolean isCelsius = SharedPreferencesHelper.isCelsius(WeatherApplication.context);
-        if (isCelsius) {
-            getViewState().setCelsius(true);
-        } else {
-            getViewState().setCelsius(false);
-        }
-
+        WeatherApplication.getAppComponent().inject(this);
     }
 
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
+        boolean isCelsius = preferencesHelper.isCelsius();
+        if (isCelsius) {
+            getViewState().setCelsius(true);
+        } else {
+            getViewState().setCelsius(false);
+        }
         compositeDisposable.add(
-                SharedPreferencesHelper.getCurrentCity(WeatherApplication.context)
-                        .subscribe(city -> {
-                                    currentCity = city;
-                                    weatherRepository.getCurrentWeather(
-                                            city.getLatitude(),
-                                            city.getLongitude(),
-                                            Locale.getDefault().getLanguage(),
-                                            this);
-                                }
-                        )
+                preferencesHelper.getCurrentCity()
+                        .doOnNext(city -> currentCity = city)
+                        .flatMap(city -> weatherRepository.getCurrentWeather(
+                                city.getLatitude(),
+                                city.getLongitude(),
+                                Locale.getDefault().getLanguage()))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::showWeatherResponse)
         );
-    }
-
-    @Override
-    public void onCurrentWeatherLoaded(WeatherResponse weatherResponse) {
-        getViewState().showWeather(weatherResponse);
-        getViewState().showCity(currentCity);
-    }
-
-    @Override
-    public void onError() {
-
     }
 
     public void onRefresh() {
         if(currentCity != null) {
-            weatherRepository.getCurrentWeather(
-                    currentCity.getLatitude(),
-                    currentCity.getLongitude(),
-                    Locale.getDefault().getLanguage(),
-                    this);
+            compositeDisposable.add(
+                    weatherRepository.getCurrentWeather(
+                            currentCity.getLatitude(),
+                            currentCity.getLongitude(),
+                            Locale.getDefault().getLanguage())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(this::showWeatherResponse)
+            );
         }
     }
 
     public void onWeatherLoadedFromService() {
-        weatherRepository.getCurrentWeatherFromCache(this);
+        compositeDisposable.add(
+        weatherRepository.getCurrentWeatherFromCache()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::showWeatherResponse)
+        );
+    }
+
+    private void showWeatherResponse(WeatherResponse response) {
+        getViewState().hideLoading();
+        getViewState().showWeather(response);
+        getViewState().showCity(currentCity);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
     }
 }
