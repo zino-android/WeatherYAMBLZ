@@ -6,9 +6,8 @@ import android.content.SharedPreferences;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
 import com.zino.mobilization.weatheryamblz.BuildConfig;
 import com.zino.mobilization.weatheryamblz.TestApplication;
-import com.zino.mobilization.weatheryamblz.model.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.model.pojo.City;
-import com.zino.mobilization.weatheryamblz.ui.AppResources;
+import com.zino.mobilization.weatheryamblz.utils.AppResources;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +18,7 @@ import org.robolectric.annotation.Config;
 
 import io.reactivex.observers.TestObserver;
 
-import static com.zino.mobilization.weatheryamblz.model.SharedPreferencesHelper.FILE_NAME;
+import static com.zino.mobilization.weatheryamblz.model.prefs.SharedPreferencesHelperImpl.FILE_NAME;
 
 /**
  * Created by Denis Buzmakov on 25.07.17.
@@ -30,7 +29,7 @@ import static com.zino.mobilization.weatheryamblz.model.SharedPreferencesHelper.
 @Config(constants = BuildConfig.class, sdk = 21, application = TestApplication.class)
 public class CurrentCityTest {
 
-    private SharedPreferencesHelper preferencesHelper;
+    private SharedPreferencesHelperImpl preferencesHelper;
 
     @Before
     public void init() {
@@ -38,7 +37,7 @@ public class CurrentCityTest {
         AppResources resources = new AppResources(context);
         SharedPreferences preferences = context.getSharedPreferences(FILE_NAME,  Context.MODE_PRIVATE);
         RxSharedPreferences rxSharedPreferences = RxSharedPreferences.create(preferences);
-        preferencesHelper = new SharedPreferencesHelper(preferences, rxSharedPreferences, resources);
+        preferencesHelper = new SharedPreferencesHelperImpl(preferences, rxSharedPreferences, resources);
     }
 
     @Test

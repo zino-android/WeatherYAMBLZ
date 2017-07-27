@@ -4,9 +4,9 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.zino.mobilization.weatheryamblz.BuildConfig;
 import com.zino.mobilization.weatheryamblz.model.api.WeatherAPI;
+import com.zino.mobilization.weatheryamblz.model.cache.CacheManager;
 import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepository;
 import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepositoryImp;
-import com.zino.mobilization.weatheryamblz.utils.DirsProvider;
 
 import javax.inject.Singleton;
 
@@ -66,8 +66,8 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    WeatherRepository provideWeatherRepository(DirsProvider dirsProvider, WeatherAPI api) {
-        return new WeatherRepositoryImp(dirsProvider, api);
+    WeatherRepository provideWeatherRepository(CacheManager cacheManager, WeatherAPI api) {
+        return new WeatherRepositoryImp(cacheManager, api);
     }
 
 }

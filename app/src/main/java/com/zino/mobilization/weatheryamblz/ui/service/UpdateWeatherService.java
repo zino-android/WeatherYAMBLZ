@@ -6,8 +6,8 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.zino.mobilization.weatheryamblz.WeatherApplication;
-import com.zino.mobilization.weatheryamblz.model.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
+import com.zino.mobilization.weatheryamblz.model.prefs.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepository;
 
 import java.util.Locale;
@@ -15,6 +15,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class UpdateWeatherService extends Service {
@@ -54,6 +55,8 @@ public class UpdateWeatherService extends Service {
                         city.getLatitude(),
                         city.getLongitude(),
                         Locale.getDefault().getLanguage()))
+                .doOnNext(result -> weatherRepository.saveCurrentWeather(result))
+                .subscribeOn(Schedulers.io())
                 .subscribe(this::onCurrentWeatherLoaded);
     }
 
