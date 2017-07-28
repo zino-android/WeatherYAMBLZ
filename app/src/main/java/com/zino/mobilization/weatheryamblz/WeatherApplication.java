@@ -20,18 +20,28 @@ public class WeatherApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        initDI();
+        initJobHelper();
+        initLibraries();
+    }
+
+    protected void initDI() {
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .networkModule(new NetworkModule())
                 .build();
+    }
 
+    protected void initJobHelper() {
         long period = appComponent.getPreferenceHelper().getUpdateTime();
         if (period == 0) {
             appComponent.getJobHelper().cancelAllJobs();
         } else {
             appComponent.getJobHelper().scheduleIfJobRequestsIsEmpty(period);
         }
+    }
 
+    protected void initLibraries() {
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this);
             Timber.plant(new Timber.DebugTree());

@@ -14,7 +14,6 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -23,13 +22,13 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class WeatherPresenter extends MvpPresenter<WeatherView> {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private City currentCity;
+    protected City currentCity;
 
     @Inject
-    WeatherRepository weatherRepository;
+    protected WeatherRepository weatherRepository;
 
     @Inject
-    SharedPreferencesHelper preferencesHelper;
+    protected SharedPreferencesHelper preferencesHelper;
 
     public WeatherPresenter() {
         WeatherApplication.getAppComponent().inject(this);
@@ -47,21 +46,12 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
         compositeDisposable.add(
                 preferencesHelper.getCurrentCity()
                         .flatMap(city -> {
-                            Observable<WeatherResponse> observable;
-                            if(currentCity == null) {
-                                observable = weatherRepository.getCurrentWeather(
-                                        city.getLatitude(),
-                                        city.getLongitude(),
-                                        Locale.getDefault().getLanguage());
-                            } else {
-                                observable = weatherRepository.getCurrentWeatherFromApi(
-                                        city.getLatitude(),
-                                        city.getLongitude(),
-                                        Locale.getDefault().getLanguage()).toObservable();
-                            }
-                            observable.doOnNext(result -> weatherRepository.saveCurrentWeather(result));
                             currentCity = city;
-                            return observable;
+                            return weatherRepository.getCurrentWeather(
+                                    city.getLatitude(),
+                                    city.getLongitude(),
+                                    Locale.getDefault().getLanguage())
+                                    .doOnNext(result -> weatherRepository.saveCurrentWeather(result));
                         })
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
@@ -86,9 +76,9 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
     public void onWeatherLoadedFromService() {
         compositeDisposable.add(
-        weatherRepository.getCurrentWeatherFromCache()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::showWeatherResponse)
+                weatherRepository.getCurrentWeatherFromCache()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::showWeatherResponse)
         );
     }
 

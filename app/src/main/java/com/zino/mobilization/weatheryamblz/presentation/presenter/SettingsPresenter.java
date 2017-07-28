@@ -26,10 +26,10 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    SharedPreferencesHelper preferencesHelper;
+    protected SharedPreferencesHelper preferencesHelper;
 
     @Inject
-    AndroidJobHelper jobHelper;
+    protected AndroidJobHelper jobHelper;
 
     public SettingsPresenter() {
         WeatherApplication.getAppComponent().inject(this);
@@ -73,13 +73,14 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
     }
 
     public void onCityChosen(Place place) {
+        if(place == null) return;
         LatLng latLngCity = place.getLatLng();
         City city = new City(place.getAddress().toString(), latLngCity.latitude, latLngCity.longitude);
         preferencesHelper.setCurrentCity(city);
     }
 
     public void onTimeCheckedChanged(@IdRes int id) {
-        long updateTime = 0;
+        long updateTime = -1;
         switch (id) {
             case R.id.radio_manually:
                 updateTime = 0;
@@ -97,6 +98,7 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
                 updateTime = 10_800_000L;
                 break;
         }
+        if(updateTime == -1) return;
 
         preferencesHelper.setUpdateTime(updateTime);
         preferencesHelper.setTimeRadioButtonId(id);

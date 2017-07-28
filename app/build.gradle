@@ -70,6 +70,7 @@ dependencies {
     testCompile "org.mockito:mockito-core:$rootProject.mockito_version"
     androidTestCompile "org.mockito:mockito-android:$rootProject.mockito_version"
     testCompile "org.robolectric:robolectric:$rootProject.robolectric_version"
+    testAnnotationProcessor "com.arello-mobile:moxy-compiler:$rootProject.moxy_version"
 
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofit_version"
