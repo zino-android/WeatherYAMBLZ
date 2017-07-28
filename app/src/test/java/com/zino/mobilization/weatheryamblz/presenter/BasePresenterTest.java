@@ -1,5 +1,7 @@
 package com.zino.mobilization.weatheryamblz.presenter;
 
+import android.support.annotation.CallSuper;
+
 import com.zino.mobilization.weatheryamblz.BuildConfig;
 import com.zino.mobilization.weatheryamblz.TestApplication;
 import com.zino.mobilization.weatheryamblz.model.prefs.SharedPreferencesHelper;
@@ -24,6 +26,7 @@ public abstract class BasePresenterTest {
     protected SharedPreferencesHelper preferencesHelper;
 
     @Before
+    @CallSuper
     public void init() {
         MockitoAnnotations.initMocks(this);
     }

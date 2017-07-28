@@ -51,7 +51,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espresso_version", {
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$rootProject.espresso_version", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile "com.android.support:appcompat-v7:$rootProject.support_version"
