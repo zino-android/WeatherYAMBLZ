@@ -8,7 +8,7 @@ public class Main {
     @SerializedName("temp")
     private double temp;
     @SerializedName("pressure")
-    private int pressure;
+    private double pressure;
     @SerializedName("humidity")
     private int humidity;
     @SerializedName("temp_min")
@@ -20,7 +20,7 @@ public class Main {
         return temp;
     }
 
-    public int getPressure() {
+    public double getPressure() {
         return pressure;
     }
 

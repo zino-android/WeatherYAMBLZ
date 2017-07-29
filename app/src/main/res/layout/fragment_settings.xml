@@ -55,10 +55,43 @@
                 android:layout_toLeftOf="@+id/celsius_button"
                 android:layout_alignTop="@+id/celsius_button"
                 android:layout_alignBottom="@+id/celsius_button"
-                android:text="Температура"
+                android:text="@string/temperature"
                 />
 
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/view_choose_city"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/city"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:padding="16dp"
+                android:layout_marginRight="16dp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/city_text_view"
+                android:textSize="18sp"
+                android:padding="16dp"
+                android:lines="1"
+                android:ellipsize="end"
+                android:gravity="right"/>
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"

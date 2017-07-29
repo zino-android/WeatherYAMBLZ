@@ -10,6 +10,7 @@ import com.evernote.android.job.JobCreator;
 public class WeatherJobCreator implements JobCreator {
     @Override
     public Job create(String tag) {
+        if(tag == null) return null;
         switch (tag) {
             case WeatherSyncJob.TAG:
                 return new WeatherSyncJob();

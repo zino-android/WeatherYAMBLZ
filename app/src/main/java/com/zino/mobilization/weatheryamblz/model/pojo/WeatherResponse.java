@@ -22,7 +22,7 @@ public class WeatherResponse {
     @SerializedName("clouds")
     private Clouds clouds;
     @SerializedName("dt")
-    private int dt;
+    private long dt;
     @SerializedName("sys")
     private Sys sys;
     @SerializedName("id")
@@ -60,7 +60,7 @@ public class WeatherResponse {
         return clouds;
     }
 
-    public int getDt() {
+    public long getDt() {
         return dt;
     }
 

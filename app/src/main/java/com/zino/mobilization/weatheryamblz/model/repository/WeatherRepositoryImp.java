@@ -23,18 +23,18 @@ public class WeatherRepositoryImp implements WeatherRepository {
     private static final String CURRENT_WEATHER_FILE_NAME = "current_weather.json";
 
     @Override
-    public void getCurrentWeather(long cityId, String lang, OnCurrentWeatherLoadedListener listener) {
+    public void getCurrentWeather(double lat, double lon, String lang, OnCurrentWeatherLoadedListener listener) {
         if (checkIfCacheAvailable()) {
             listener.onCurrentWeatherLoaded(restoreCurrentWeather());
         }
 
          ApiInstance.getAPI()
-                 .getCurrentWeather(cityId, "ad0dae19ea9cd24058581481b3ce84ce", lang, "metric")
+                 .getCurrentWeather(lat, lon, "ad0dae19ea9cd24058581481b3ce84ce", lang, "metric")
                  .doOnNext(this::saveCurrentWeather)
                  .subscribeOn(Schedulers.io())
                  .observeOn(AndroidSchedulers.mainThread())
-                 .subscribe(weatherResponse -> {weatherLoaded(weatherResponse, listener);},
-                    throwable -> {onError(throwable, listener);});
+                 .subscribe(weatherResponse -> weatherLoaded(weatherResponse, listener),
+                    throwable -> onError(throwable, listener));
     }
 
 

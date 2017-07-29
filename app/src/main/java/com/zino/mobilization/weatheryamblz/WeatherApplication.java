@@ -7,6 +7,7 @@ import com.squareup.leakcanary.LeakCanary;
 import com.zino.mobilization.weatheryamblz.model.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.utils.AndroidJobHelper;
 
+import timber.log.Timber;
 
 
 public class WeatherApplication extends Application {
@@ -30,6 +31,7 @@ public class WeatherApplication extends Application {
 
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this);
+            Timber.plant(new Timber.DebugTree());
 
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 return;

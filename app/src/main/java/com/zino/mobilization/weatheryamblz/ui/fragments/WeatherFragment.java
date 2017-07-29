@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.zino.mobilization.weatheryamblz.R;
+import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 import com.zino.mobilization.weatheryamblz.presentation.presenter.WeatherPresenter;
 import com.zino.mobilization.weatheryamblz.presentation.view.WeatherView;
@@ -25,6 +27,9 @@ import com.zino.mobilization.weatheryamblz.utils.Utils;
 import butterknife.BindView;
 
 
+/**
+ * A simple {@link Fragment} subclass.
+ */
 public class WeatherFragment extends BaseFragment implements WeatherView {
 
     @InjectPresenter
@@ -60,6 +65,9 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
     @BindView(R.id.wind_text_view)
     TextView windSpeedTextView;
 
+    @BindView(R.id.city_text_view)
+    TextView cityTextView;
+
     private boolean isCelsius = true;
 
     private BroadcastReceiver br = new BroadcastReceiver() {
@@ -68,7 +76,7 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
                 presenter.onWeatherLoadedFromService();
             }
         }
-    };;
+    };
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -77,9 +85,7 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_weather, container, false);
     }
 
@@ -88,12 +94,9 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
         super.onViewCreated(view, savedInstanceState);
         onNavigationChanged.setTitle(getResources().getString(R.string.action_weather));
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                presenter.onRefresh();
-                swipeRefreshLayout.setRefreshing(false);
-            }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            presenter.onRefresh();
+            swipeRefreshLayout.setRefreshing(false);
         });
 
 
@@ -151,6 +154,11 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
 
         windSpeedTextView.setText(String.format(getResources().getString(R.string.wind),
                 String.valueOf(weatherResponse.getWind().getSpeed())));
+    }
+
+    @Override
+    public void showCity(City city) {
+        cityTextView.setText(city.getName());
     }
 
     @Override

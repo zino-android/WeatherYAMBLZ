@@ -5,8 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+        classpath 'com.android.tools.build:gradle:3.0.0-alpha7'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -24,13 +23,16 @@ task clean(type: Delete) {
 }
 
 ext {
+    //sdk versions
+    compile_sdk_version = 26
+    min_sdk_version = 19
+    target_sdk_version = 26
+
+    //libraries
     support_version = '26.0.0-alpha1'
     junit_version = '4.12'
     espresso_version = '2.2.2'
     butter_knife_version = '8.6.0'
-    compile_sdk_version = 26
-    min_sdk_version = 19
-    target_sdk_version = 26
     moxy_version = '1.5.3'
     retrofit_version = '2.3.0'
     rxjava_version = '2.1.1'
@@ -39,4 +41,8 @@ ext {
     play_services_version = '11.0.1'
     stetho_version = '1.5.0'
     leak_canary_version = '1.5.1'
+    timber_version = '4.5.1'
+    hamcrest_version = '1.3'
+    play_services_version = '11.0.2'
+    rxprefs_version = '2.0.0-RC2'
 }

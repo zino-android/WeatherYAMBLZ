@@ -6,7 +6,7 @@ package com.zino.mobilization.weatheryamblz.model.repository;
 
 public interface WeatherRepository {
 
-    void getCurrentWeather(long cityId, String lang, OnCurrentWeatherLoadedListener listener);
+    void getCurrentWeather(double lat, double lon, String lang, OnCurrentWeatherLoadedListener listener);
 
     void getCurrentWeatherFromCache(OnCurrentWeatherLoadedListener listener);
 

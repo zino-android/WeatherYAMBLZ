@@ -15,9 +15,9 @@ public class Sys {
     @SerializedName("country")
     private String country;
     @SerializedName("sunrise")
-    private int sunrise;
+    private long sunrise;
     @SerializedName("sunset")
-    private int sunset;
+    private long sunset;
 
     public int getType() {
         return type;
@@ -35,11 +35,11 @@ public class Sys {
         return country;
     }
 
-    public int getSunrise() {
+    public long getSunrise() {
         return sunrise;
     }
 
-    public int getSunset() {
+    public long getSunset() {
         return sunset;
     }
 

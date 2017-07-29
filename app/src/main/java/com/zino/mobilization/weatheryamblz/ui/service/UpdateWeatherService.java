@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.zino.mobilization.weatheryamblz.model.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 import com.zino.mobilization.weatheryamblz.model.repository.OnCurrentWeatherLoadedListener;
 import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepository;
@@ -35,9 +36,15 @@ public class UpdateWeatherService extends Service implements OnCurrentWeatherLoa
     }
 
     void loadWeather() {
-       WeatherRepository weatherRepository = new WeatherRepositoryImp();
+        WeatherRepository weatherRepository = new WeatherRepositoryImp();
 
-        weatherRepository.getCurrentWeather(524901, Locale.getDefault().getLanguage(), this);
+        SharedPreferencesHelper.getCurrentCity(getApplicationContext())
+                .subscribe(city -> weatherRepository.getCurrentWeather(
+                        city.getLatitude(),
+                        city.getLongitude(),
+                        Locale.getDefault().getLanguage(),
+                        this)
+                );
     }
 
     @Override
