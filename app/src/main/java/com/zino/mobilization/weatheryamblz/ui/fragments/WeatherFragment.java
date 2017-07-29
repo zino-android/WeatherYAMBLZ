@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,7 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.zino.mobilization.weatheryamblz.R;
+import com.zino.mobilization.weatheryamblz.WeatherApplication;
 import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 import com.zino.mobilization.weatheryamblz.presentation.presenter.WeatherPresenter;
@@ -70,14 +73,23 @@ public class WeatherFragment extends BaseFragment implements WeatherView {
 
     private boolean isCelsius = true;
 
-    private BroadcastReceiver br = new BroadcastReceiver() {
+    private final BroadcastReceiver br = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(UpdateWeatherService.WEATHER_LOADED_ACTION)) {
-                presenter.onWeatherLoadedFromService();
+            String action = intent.getAction();
+            if(action != null) {
+                if (action.equals(UpdateWeatherService.WEATHER_LOADED_ACTION)) {
+                    presenter.onWeatherLoadedFromService();
+                }
             }
         }
     };
 
+    @ProvidePresenter
+    WeatherPresenter provideWeatherPresenter() {
+        return WeatherApplication.getAppComponent().getWeatherPresenter();
+    }
+
+    @NonNull
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_weather, container, false);

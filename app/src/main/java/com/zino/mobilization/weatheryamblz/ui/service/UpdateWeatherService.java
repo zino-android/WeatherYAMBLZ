@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.zino.mobilization.weatheryamblz.WeatherApplication;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 import com.zino.mobilization.weatheryamblz.model.prefs.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepository;
@@ -24,15 +23,15 @@ public class UpdateWeatherService extends Service {
 
     private Disposable disposable;
 
-    @Inject
-    SharedPreferencesHelper preferencesHelper;
+    private SharedPreferencesHelper preferencesHelper;
+
+    private WeatherRepository weatherRepository;
 
     @Inject
-    WeatherRepository weatherRepository;
-
-    public void onCreate() {
-        super.onCreate();
-        WeatherApplication.getAppComponent().inject(this);
+    public UpdateWeatherService(SharedPreferencesHelper preferencesHelper,
+                                WeatherRepository repository) {
+        this.preferencesHelper = preferencesHelper;
+        this.weatherRepository = repository;
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {

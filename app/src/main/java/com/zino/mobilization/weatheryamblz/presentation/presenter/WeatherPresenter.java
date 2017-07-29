@@ -3,7 +3,6 @@ package com.zino.mobilization.weatheryamblz.presentation.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.zino.mobilization.weatheryamblz.WeatherApplication;
 import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 import com.zino.mobilization.weatheryamblz.model.prefs.SharedPreferencesHelper;
@@ -12,8 +11,6 @@ import com.zino.mobilization.weatheryamblz.presentation.view.WeatherView;
 
 import java.util.Locale;
 
-import javax.inject.Inject;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -21,17 +18,15 @@ import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class WeatherPresenter extends MvpPresenter<WeatherView> {
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     protected City currentCity;
-
-    @Inject
-    protected WeatherRepository weatherRepository;
-
-    @Inject
+    private WeatherRepository weatherRepository;
     protected SharedPreferencesHelper preferencesHelper;
 
-    public WeatherPresenter() {
-        WeatherApplication.getAppComponent().inject(this);
+    public WeatherPresenter(SharedPreferencesHelper preferencesHelper,
+                            WeatherRepository weatherRepository) {
+        this.preferencesHelper = preferencesHelper;
+        this.weatherRepository = weatherRepository;
     }
 
     @Override

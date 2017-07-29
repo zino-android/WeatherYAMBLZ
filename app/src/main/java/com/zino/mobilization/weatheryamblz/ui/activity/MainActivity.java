@@ -1,6 +1,8 @@
 package com.zino.mobilization.weatheryamblz.ui.activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -8,7 +10,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-
 
 import com.zino.mobilization.weatheryamblz.R;
 import com.zino.mobilization.weatheryamblz.ui.fragments.AboutFragment;
@@ -49,13 +50,20 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return toggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        toggle.onConfigurationChanged(newConfig);
+    }
 
     @Override
     public void onBackPressed() {
@@ -66,10 +74,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_weather:
@@ -85,9 +91,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-
 
     @Override
     public void setTitle(String title) {

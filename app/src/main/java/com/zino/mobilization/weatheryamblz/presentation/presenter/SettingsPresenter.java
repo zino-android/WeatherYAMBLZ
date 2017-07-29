@@ -4,16 +4,14 @@ import android.support.annotation.IdRes;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 import com.zino.mobilization.weatheryamblz.R;
-import com.zino.mobilization.weatheryamblz.WeatherApplication;
 import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.model.prefs.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.presentation.view.SettingsView;
 import com.zino.mobilization.weatheryamblz.utils.AndroidJobHelper;
-
-import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -23,16 +21,19 @@ import io.reactivex.disposables.CompositeDisposable;
 
 @InjectViewState
 public class SettingsPresenter extends MvpPresenter<SettingsView> {
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private SharedPreferencesHelper preferencesHelper;
+    private AndroidJobHelper jobHelper;
 
-    @Inject
-    protected SharedPreferencesHelper preferencesHelper;
+    public SettingsPresenter(SharedPreferencesHelper preferencesHelper,
+                             AndroidJobHelper jobHelper) {
+        this.preferencesHelper = preferencesHelper;
+        this.jobHelper = jobHelper;
+    }
 
-    @Inject
-    protected AndroidJobHelper jobHelper;
-
-    public SettingsPresenter() {
-        WeatherApplication.getAppComponent().inject(this);
+    @ProvidePresenter
+    SettingsPresenter provideSettingsPresenter() {
+        return new SettingsPresenter(preferencesHelper, jobHelper);
     }
 
     @Override
