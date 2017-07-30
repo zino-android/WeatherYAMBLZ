@@ -6,19 +6,13 @@ import com.zino.mobilization.weatheryamblz.presentation.presenter.SettingsPresen
 import com.zino.mobilization.weatheryamblz.utils.AndroidJobHelper;
 
 /**
- * Created by Denis Buzmakov on 27.07.17.
+ * Created by Denis Buzmakov on 30.07.17.
  * <buzmakov.da@gmail.com>
  */
 
 @InjectViewState
 public class TestPresenter extends SettingsPresenter {
-
-    public void setPreferencesHelper(SharedPreferencesHelper helper) {
-        this.preferencesHelper = helper;
+    public TestPresenter(SharedPreferencesHelper preferencesHelper, AndroidJobHelper jobHelper) {
+        super(preferencesHelper, jobHelper);
     }
-
-    public void setJobHelper(AndroidJobHelper jobHelper) {
-        this.jobHelper = jobHelper;
-    }
-
 }

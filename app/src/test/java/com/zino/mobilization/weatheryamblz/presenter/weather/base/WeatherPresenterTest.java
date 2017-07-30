@@ -8,6 +8,12 @@ import com.zino.mobilization.weatheryamblz.presenter.BasePresenterTest;
 
 import org.mockito.Mock;
 
+import io.reactivex.observers.TestObserver;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.SingleSubject;
+
+import static org.mockito.Mockito.when;
+
 /**
  * Created by Denis Buzmakov on 27.07.17.
  * <buzmakov.da@gmail.com>
@@ -28,10 +34,16 @@ public abstract class WeatherPresenterTest extends BasePresenterTest{
     @Mock
     protected WeatherResponse weatherResponse;
 
+    protected final SingleSubject<WeatherResponse> singleSubject = SingleSubject.create();
+    protected final TestObserver<WeatherResponse> responseObserver = new TestObserver<>();
+
     @Override
     public void init() {
         super.init();
-        presenter = new TestPresenter();
+        presenter = new TestPresenter(preferencesHelper, weatherRepository);
+        when(preferencesHelper.getCurrentCity()).thenReturn(PublishSubject.create());
+
+        singleSubject.subscribe(responseObserver);
     }
 
 }

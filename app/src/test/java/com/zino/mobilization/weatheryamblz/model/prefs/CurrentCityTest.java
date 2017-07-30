@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
 import com.zino.mobilization.weatheryamblz.BuildConfig;
 import com.zino.mobilization.weatheryamblz.TestApplication;
+import com.zino.mobilization.weatheryamblz.util.TestData;
 import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.utils.AppResources;
 
@@ -50,8 +51,9 @@ public class CurrentCityTest {
     @Test
     public void shouldAddAndReturnNewYork() {
         TestObserver<City> observer = createTestObserverAndSubscribe();
-        preferencesHelper.setCurrentCity(createNewYork());
-        observer.assertValues(preferencesHelper.defaultCity(), createNewYork());
+        City newYork = TestData.getNewYork();
+        preferencesHelper.setCurrentCity(newYork);
+        observer.assertValues(preferencesHelper.defaultCity(), newYork);
         observer.dispose();
     }
 
@@ -61,10 +63,6 @@ public class CurrentCityTest {
         preferencesHelper.setCurrentCity(null);
         observer.assertValues(preferencesHelper.defaultCity());
         observer.dispose();
-    }
-
-    private City createNewYork() {
-        return new City("New York", 40.730610, -73.935242);
     }
 
     private TestObserver<City> createTestObserverAndSubscribe() {

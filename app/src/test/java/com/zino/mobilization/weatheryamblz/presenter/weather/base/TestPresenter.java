@@ -14,12 +14,8 @@ import com.zino.mobilization.weatheryamblz.presentation.presenter.WeatherPresent
 @InjectViewState
 public class TestPresenter extends WeatherPresenter {
 
-    public void setPreferencesHelper(SharedPreferencesHelper helper) {
-        this.preferencesHelper = helper;
-    }
-
-    public void setWeatherRepository(WeatherRepository repository) {
-        this.weatherRepository = repository;
+    TestPresenter(SharedPreferencesHelper preferencesHelper, WeatherRepository weatherRepository) {
+        super(preferencesHelper, weatherRepository);
     }
 
     public void setCurrentCity(City city) {

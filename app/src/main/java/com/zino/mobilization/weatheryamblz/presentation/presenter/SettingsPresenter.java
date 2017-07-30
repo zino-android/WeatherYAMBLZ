@@ -4,7 +4,6 @@ import android.support.annotation.IdRes;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 import com.zino.mobilization.weatheryamblz.R;
@@ -29,11 +28,6 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
                              AndroidJobHelper jobHelper) {
         this.preferencesHelper = preferencesHelper;
         this.jobHelper = jobHelper;
-    }
-
-    @ProvidePresenter
-    SettingsPresenter provideSettingsPresenter() {
-        return new SettingsPresenter(preferencesHelper, jobHelper);
     }
 
     @Override

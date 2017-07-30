@@ -4,8 +4,11 @@ import com.zino.mobilization.weatheryamblz.presentation.view.SettingsView;
 import com.zino.mobilization.weatheryamblz.presenter.BasePresenterTest;
 import com.zino.mobilization.weatheryamblz.utils.AndroidJobHelper;
 
-import org.junit.After;
 import org.mockito.Mock;
+
+import io.reactivex.subjects.PublishSubject;
+
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Denis Buzmakov on 27.07.17.
@@ -24,12 +27,8 @@ public abstract class SettingsPresenterTest extends BasePresenterTest{
     @Override
     public void init() {
         super.init();
-        presenter = new TestPresenter();
+        presenter = new TestPresenter(preferencesHelper, jobHelper);
+        when(preferencesHelper.getCurrentCity()).thenReturn(PublishSubject.create());
         presenter.attachView(view);
-    }
-
-    @After
-    public void after() {
-        presenter.destroyView(view);
     }
 }

@@ -21,7 +21,6 @@ public class TemperatureUnitsTest extends WeatherPresenterTest {
     public void shouldSetCelsius() {
         when(preferencesHelper.isCelsius()).thenReturn(true);
         when(preferencesHelper.getCurrentCity()).thenReturn(PublishSubject.create());//to ignore calling in onFirstViewAttach()
-        presenter.setPreferencesHelper(preferencesHelper);
         presenter.attachView(view);
         verify(view, atLeastOnce()).setCelsius(true);
     }
@@ -30,7 +29,6 @@ public class TemperatureUnitsTest extends WeatherPresenterTest {
     public void shouldSetFahrenheit() {
         when(preferencesHelper.isCelsius()).thenReturn(false);
         when(preferencesHelper.getCurrentCity()).thenReturn(PublishSubject.create());//to ignore calling in onFirstViewAttach()
-        presenter.setPreferencesHelper(preferencesHelper);
         presenter.attachView(view);
         verify(view, atLeastOnce()).setCelsius(false);
     }

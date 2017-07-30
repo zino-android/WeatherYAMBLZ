@@ -20,9 +20,6 @@ public class UpdateIntervalTest extends SettingsPresenterTest {
 
     @Test
     public void shouldChangeIntervalAndReschedule() {
-        presenter.setJobHelper(jobHelper);
-        presenter.setPreferencesHelper(preferencesHelper);
-
         int radioId = R.id.radio_fifteen;
         long period = 900_000L;
         presenter.onTimeCheckedChanged(radioId);
@@ -33,9 +30,6 @@ public class UpdateIntervalTest extends SettingsPresenterTest {
 
     @Test
     public void shouldChangeIntervalAndCancel() {
-        presenter.setJobHelper(jobHelper);
-        presenter.setPreferencesHelper(preferencesHelper);
-
         int radioId = R.id.radio_manually;
         long period = 0;
         presenter.onTimeCheckedChanged(radioId);
@@ -46,9 +40,6 @@ public class UpdateIntervalTest extends SettingsPresenterTest {
 
     @Test
     public void shouldNotChangeInterval() {
-        presenter.setJobHelper(jobHelper);
-        presenter.setPreferencesHelper(preferencesHelper);
-
         presenter.onTimeCheckedChanged(0);
         verify(preferencesHelper, never()).setUpdateTime(anyLong());
         verify(preferencesHelper, never()).setTimeRadioButtonId(anyInt());

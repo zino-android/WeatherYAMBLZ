@@ -6,6 +6,7 @@ import com.zino.mobilization.weatheryamblz.di.module.PresenterModule;
 import com.zino.mobilization.weatheryamblz.model.prefs.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.presentation.presenter.SettingsPresenter;
 import com.zino.mobilization.weatheryamblz.presentation.presenter.WeatherPresenter;
+import com.zino.mobilization.weatheryamblz.ui.service.UpdateWeatherService;
 import com.zino.mobilization.weatheryamblz.utils.AndroidJobHelper;
 
 import javax.inject.Singleton;
@@ -20,6 +21,8 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, NetworkModule.class, PresenterModule.class})
 public interface AppComponent {
+    void inject(UpdateWeatherService service);
+
     SharedPreferencesHelper getPreferenceHelper();
     AndroidJobHelper getJobHelper();
 

@@ -1,13 +1,17 @@
 package com.zino.mobilization.weatheryamblz.presenter.weather;
 
+import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 import com.zino.mobilization.weatheryamblz.presenter.weather.base.WeatherPresenterTest;
+import com.zino.mobilization.weatheryamblz.util.RxImmediateSchedulerRule;
 
+import org.junit.ClassRule;
 import org.junit.Test;
+
+import java.util.Locale;
 
 import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.SingleSubject;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
@@ -24,17 +28,15 @@ import static org.mockito.Mockito.when;
 
 public class LoadingWeatherTest extends WeatherPresenterTest {
 
+    @ClassRule
+    public static final RxImmediateSchedulerRule schedulers = new RxImmediateSchedulerRule();
+
     @Test
     public void shouldLoadFromApiAfterRefresh() {
         presenter.attachView(view);
-        SingleSubject<WeatherResponse> subject = SingleSubject.create();
-        TestObserver<WeatherResponse> responseObserver = new TestObserver<>();
-        subject.subscribe(responseObserver);
 
         when(weatherRepository.getCurrentWeatherFromApi(anyDouble(), anyDouble(), anyString()))
-                .thenReturn(subject);
-        when(preferencesHelper.getCurrentCity()).thenReturn(PublishSubject.create());//to ignore calling in onFirstViewAttach()
-        presenter.setWeatherRepository(weatherRepository);
+                .thenReturn(singleSubject);
         presenter.setCurrentCity(currentCity);
 
         presenter.onRefresh();
@@ -43,7 +45,7 @@ public class LoadingWeatherTest extends WeatherPresenterTest {
         verify(weatherRepository, never()).getCurrentWeather(anyDouble(), anyDouble(), anyString());
         verify(weatherRepository, never()).getCurrentWeatherFromCache();
 
-        subject.onSuccess(weatherResponse);
+        singleSubject.onSuccess(weatherResponse);
         responseObserver.assertValue(weatherResponse);
 
         verify(weatherRepository, atLeastOnce()).saveCurrentWeather(weatherResponse);
@@ -53,14 +55,9 @@ public class LoadingWeatherTest extends WeatherPresenterTest {
     @Test
     public void shouldLoadFromCache() {
         presenter.attachView(view);
-        SingleSubject<WeatherResponse> subject = SingleSubject.create();
-        TestObserver<WeatherResponse> responseObserver = new TestObserver<>();
-        subject.subscribe(responseObserver);
 
         when(weatherRepository.getCurrentWeatherFromCache())
-                .thenReturn(subject);
-        when(preferencesHelper.getCurrentCity()).thenReturn(PublishSubject.create());//to ignore calling in onFirstViewAttach()
-        presenter.setWeatherRepository(weatherRepository);
+                .thenReturn(singleSubject);
         presenter.setCurrentCity(currentCity);
 
         presenter.onWeatherLoadedFromService();
@@ -69,10 +66,36 @@ public class LoadingWeatherTest extends WeatherPresenterTest {
         verify(weatherRepository, never()).getCurrentWeather(anyDouble(), anyDouble(), anyString());
         verify(weatherRepository, atLeastOnce()).getCurrentWeatherFromCache();
 
-        subject.onSuccess(weatherResponse);
+        singleSubject.onSuccess(weatherResponse);
         responseObserver.assertValue(weatherResponse);
 
         verify(weatherRepository, never()).saveCurrentWeather(weatherResponse);
+        verifyShowWeather(weatherResponse);
+    }
+
+    @Test
+    public void shouldLoadOnStartup() {
+        PublishSubject<WeatherResponse> weatherSubject = PublishSubject.create();
+        PublishSubject<City> citySubject = PublishSubject.create();
+        TestObserver<WeatherResponse> responseObserver = new TestObserver<>();
+        weatherSubject.subscribe(responseObserver);
+
+        when(preferencesHelper.getCurrentCity()).thenReturn(citySubject);
+        when(weatherRepository.getCurrentWeather(anyDouble(), anyDouble(), anyString()))
+                .thenReturn(weatherSubject);
+
+        presenter.attachView(view);
+
+        verify(preferencesHelper, atLeastOnce()).getCurrentCity();
+        City city = new City("", 55, 51);
+
+        citySubject.onNext(city);
+        verify(weatherRepository, atLeastOnce())
+                .getCurrentWeather(city.getLatitude(), city.getLongitude(), Locale.getDefault().getLanguage());
+        weatherSubject.onNext(weatherResponse);
+        responseObserver.assertValue(weatherResponse);
+
+        verify(weatherRepository, atLeastOnce()).saveCurrentWeather(weatherResponse);
         verifyShowWeather(weatherResponse);
     }
 

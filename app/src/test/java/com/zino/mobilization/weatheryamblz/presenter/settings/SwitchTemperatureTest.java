@@ -16,7 +16,6 @@ public class SwitchTemperatureTest extends SettingsPresenterTest {
 
     @Test
     public void shouldSetCelsius() {
-        presenter.setPreferencesHelper(preferencesHelper);
         presenter.onCelsiusButtonClicked();
         verify(view, atLeastOnce()).setCelsiusButtonActive();
         verify(preferencesHelper, atLeastOnce()).setCelsius(true);
@@ -24,7 +23,6 @@ public class SwitchTemperatureTest extends SettingsPresenterTest {
 
     @Test
     public void shouldSetFahrenheit() {
-        presenter.setPreferencesHelper(preferencesHelper);
         presenter.onFahrenheitButtonClicked();
         verify(view, atLeastOnce()).setFahrenheitButtonActive();
         verify(preferencesHelper, atLeastOnce()).setCelsius(false);
