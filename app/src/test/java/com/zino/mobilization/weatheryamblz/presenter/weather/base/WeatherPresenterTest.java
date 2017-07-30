@@ -3,16 +3,15 @@ package com.zino.mobilization.weatheryamblz.presenter.weather.base;
 import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 import com.zino.mobilization.weatheryamblz.model.repository.WeatherRepository;
-import com.zino.mobilization.weatheryamblz.presentation.view.WeatherView;
+import com.zino.mobilization.weatheryamblz.presentation.view.WeatherView$$State;
 import com.zino.mobilization.weatheryamblz.presenter.BasePresenterTest;
+import com.zino.mobilization.weatheryamblz.common.RxImmediateSchedulerRule;
 
+import org.junit.ClassRule;
 import org.mockito.Mock;
 
 import io.reactivex.observers.TestObserver;
-import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.SingleSubject;
-
-import static org.mockito.Mockito.when;
 
 /**
  * Created by Denis Buzmakov on 27.07.17.
@@ -22,8 +21,11 @@ import static org.mockito.Mockito.when;
 public abstract class WeatherPresenterTest extends BasePresenterTest{
     protected TestPresenter presenter;
 
+    @ClassRule
+    public static final RxImmediateSchedulerRule schedulers = new RxImmediateSchedulerRule();
+
     @Mock
-    protected WeatherView view;
+    protected WeatherView$$State viewState;
 
     @Mock
     protected WeatherRepository weatherRepository;
@@ -41,7 +43,7 @@ public abstract class WeatherPresenterTest extends BasePresenterTest{
     public void init() {
         super.init();
         presenter = new TestPresenter(preferencesHelper, weatherRepository);
-        when(preferencesHelper.getCurrentCity()).thenReturn(PublishSubject.create());
+        presenter.setViewState(viewState);
 
         singleSubject.subscribe(responseObserver);
     }

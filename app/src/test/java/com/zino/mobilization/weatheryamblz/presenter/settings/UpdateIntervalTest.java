@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -23,9 +22,9 @@ public class UpdateIntervalTest extends SettingsPresenterTest {
         int radioId = R.id.radio_fifteen;
         long period = 900_000L;
         presenter.onTimeCheckedChanged(radioId);
-        verify(preferencesHelper, atLeastOnce()).setUpdateTime(period);
-        verify(preferencesHelper, atLeastOnce()).setTimeRadioButtonId(radioId);
-        verify(jobHelper, atLeastOnce()).changeSchedulePeriod(period);
+        verify(preferencesHelper).setUpdateTime(period);
+        verify(preferencesHelper).setTimeRadioButtonId(radioId);
+        verify(jobHelper).changeSchedulePeriod(period);
     }
 
     @Test
@@ -33,9 +32,9 @@ public class UpdateIntervalTest extends SettingsPresenterTest {
         int radioId = R.id.radio_manually;
         long period = 0;
         presenter.onTimeCheckedChanged(radioId);
-        verify(preferencesHelper, atLeastOnce()).setUpdateTime(period);
-        verify(preferencesHelper, atLeastOnce()).setTimeRadioButtonId(radioId);
-        verify(jobHelper, atLeastOnce()).cancelAllJobs();
+        verify(preferencesHelper).setUpdateTime(period);
+        verify(preferencesHelper).setTimeRadioButtonId(radioId);
+        verify(jobHelper).cancelAllJobs();
     }
 
     @Test

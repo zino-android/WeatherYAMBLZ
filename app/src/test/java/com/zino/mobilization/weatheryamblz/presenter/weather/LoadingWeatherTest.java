@@ -3,9 +3,8 @@ package com.zino.mobilization.weatheryamblz.presenter.weather;
 import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;
 import com.zino.mobilization.weatheryamblz.presenter.weather.base.WeatherPresenterTest;
-import com.zino.mobilization.weatheryamblz.util.RxImmediateSchedulerRule;
+import com.zino.mobilization.weatheryamblz.common.TestData;
 
-import org.junit.ClassRule;
 import org.junit.Test;
 
 import java.util.Locale;
@@ -16,8 +15,8 @@ import io.reactivex.subjects.PublishSubject;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,43 +27,32 @@ import static org.mockito.Mockito.when;
 
 public class LoadingWeatherTest extends WeatherPresenterTest {
 
-    @ClassRule
-    public static final RxImmediateSchedulerRule schedulers = new RxImmediateSchedulerRule();
-
     @Test
     public void shouldLoadFromApiAfterRefresh() {
-        presenter.attachView(view);
-
         when(weatherRepository.getCurrentWeatherFromApi(anyDouble(), anyDouble(), anyString()))
                 .thenReturn(singleSubject);
         presenter.setCurrentCity(currentCity);
 
         presenter.onRefresh();
 
-        verify(weatherRepository, atLeastOnce()).getCurrentWeatherFromApi(anyDouble(), anyDouble(), anyString());
-        verify(weatherRepository, never()).getCurrentWeather(anyDouble(), anyDouble(), anyString());
-        verify(weatherRepository, never()).getCurrentWeatherFromCache();
+        verify(weatherRepository, only()).getCurrentWeatherFromApi(anyDouble(), anyDouble(), anyString());
 
         singleSubject.onSuccess(weatherResponse);
         responseObserver.assertValue(weatherResponse);
 
-        verify(weatherRepository, atLeastOnce()).saveCurrentWeather(weatherResponse);
+        verify(weatherRepository).saveCurrentWeather(weatherResponse);
         verifyShowWeather(weatherResponse);
     }
 
     @Test
-    public void shouldLoadFromCache() {
-        presenter.attachView(view);
-
+    public void shouldLoadFromCacheAfterLoadingFromService() {
         when(weatherRepository.getCurrentWeatherFromCache())
                 .thenReturn(singleSubject);
         presenter.setCurrentCity(currentCity);
 
         presenter.onWeatherLoadedFromService();
 
-        verify(weatherRepository, never()).getCurrentWeatherFromApi(anyDouble(), anyDouble(), anyString());
-        verify(weatherRepository, never()).getCurrentWeather(anyDouble(), anyDouble(), anyString());
-        verify(weatherRepository, atLeastOnce()).getCurrentWeatherFromCache();
+        verify(weatherRepository, only()).getCurrentWeatherFromCache();
 
         singleSubject.onSuccess(weatherResponse);
         responseObserver.assertValue(weatherResponse);
@@ -84,25 +72,25 @@ public class LoadingWeatherTest extends WeatherPresenterTest {
         when(weatherRepository.getCurrentWeather(anyDouble(), anyDouble(), anyString()))
                 .thenReturn(weatherSubject);
 
-        presenter.attachView(view);
+        presenter.onFirstViewAttach();
 
-        verify(preferencesHelper, atLeastOnce()).getCurrentCity();
-        City city = new City("", 55, 51);
+        verify(preferencesHelper).getCurrentCity();
+        City city = TestData.getTestCity();
 
         citySubject.onNext(city);
-        verify(weatherRepository, atLeastOnce())
+        verify(weatherRepository, only())
                 .getCurrentWeather(city.getLatitude(), city.getLongitude(), Locale.getDefault().getLanguage());
         weatherSubject.onNext(weatherResponse);
         responseObserver.assertValue(weatherResponse);
 
-        verify(weatherRepository, atLeastOnce()).saveCurrentWeather(weatherResponse);
+        verify(weatherRepository).saveCurrentWeather(weatherResponse);
         verifyShowWeather(weatherResponse);
     }
 
     private void verifyShowWeather(WeatherResponse response) {
-        verify(view, atLeastOnce()).hideLoading();
-        verify(view, atLeastOnce()).showWeather(response);
-        verify(view, atLeastOnce()).showCity(any());
+        verify(viewState).hideLoading();
+        verify(viewState).showWeather(response);
+        verify(viewState).showCity(any(City.class));
     }
 
 }

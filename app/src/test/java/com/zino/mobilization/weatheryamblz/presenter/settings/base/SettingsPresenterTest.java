@@ -1,6 +1,6 @@
 package com.zino.mobilization.weatheryamblz.presenter.settings.base;
 
-import com.zino.mobilization.weatheryamblz.presentation.view.SettingsView;
+import com.zino.mobilization.weatheryamblz.presentation.view.SettingsView$$State;
 import com.zino.mobilization.weatheryamblz.presenter.BasePresenterTest;
 import com.zino.mobilization.weatheryamblz.utils.AndroidJobHelper;
 
@@ -19,16 +19,16 @@ public abstract class SettingsPresenterTest extends BasePresenterTest{
     protected TestPresenter presenter;
 
     @Mock
-    protected SettingsView view;
+    protected AndroidJobHelper jobHelper;
 
     @Mock
-    protected AndroidJobHelper jobHelper;
+    protected SettingsView$$State viewState;
 
     @Override
     public void init() {
         super.init();
         presenter = new TestPresenter(preferencesHelper, jobHelper);
         when(preferencesHelper.getCurrentCity()).thenReturn(PublishSubject.create());
-        presenter.attachView(view);
+        presenter.setViewState(viewState);
     }
 }

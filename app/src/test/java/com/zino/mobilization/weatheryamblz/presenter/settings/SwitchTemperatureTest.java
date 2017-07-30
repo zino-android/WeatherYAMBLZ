@@ -4,7 +4,6 @@ import com.zino.mobilization.weatheryamblz.presenter.settings.base.SettingsPrese
 
 import org.junit.Test;
 
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -17,15 +16,15 @@ public class SwitchTemperatureTest extends SettingsPresenterTest {
     @Test
     public void shouldSetCelsius() {
         presenter.onCelsiusButtonClicked();
-        verify(view, atLeastOnce()).setCelsiusButtonActive();
-        verify(preferencesHelper, atLeastOnce()).setCelsius(true);
+        verify(viewState).setCelsiusButtonActive();
+        verify(preferencesHelper).setCelsius(true);
     }
 
     @Test
     public void shouldSetFahrenheit() {
         presenter.onFahrenheitButtonClicked();
-        verify(view, atLeastOnce()).setFahrenheitButtonActive();
-        verify(preferencesHelper, atLeastOnce()).setCelsius(false);
+        verify(viewState).setFahrenheitButtonActive();
+        verify(preferencesHelper).setCelsius(false);
     }
 
 }

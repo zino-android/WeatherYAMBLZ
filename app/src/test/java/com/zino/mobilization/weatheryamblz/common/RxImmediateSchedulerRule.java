@@ -1,4 +1,4 @@
-package com.zino.mobilization.weatheryamblz.util;
+package com.zino.mobilization.weatheryamblz.common;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;

@@ -1,6 +1,6 @@
 package com.zino.mobilization.weatheryamblz.model.repository;
 
-import com.zino.mobilization.weatheryamblz.util.TestData;
+import com.zino.mobilization.weatheryamblz.common.TestData;
 import com.zino.mobilization.weatheryamblz.model.api.WeatherAPI;
 import com.zino.mobilization.weatheryamblz.model.cache.CacheManager;
 import com.zino.mobilization.weatheryamblz.model.pojo.WeatherResponse;

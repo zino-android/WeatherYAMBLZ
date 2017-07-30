@@ -21,4 +21,9 @@ public class TestPresenter extends WeatherPresenter {
     public void setCurrentCity(City city) {
         this.currentCity = city;
     }
+
+    @Override
+    public void onFirstViewAttach() {
+        super.onFirstViewAttach();
+    }
 }

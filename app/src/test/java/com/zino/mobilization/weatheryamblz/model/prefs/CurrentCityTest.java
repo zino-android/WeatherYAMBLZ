@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
 import com.zino.mobilization.weatheryamblz.BuildConfig;
 import com.zino.mobilization.weatheryamblz.TestApplication;
-import com.zino.mobilization.weatheryamblz.util.TestData;
+import com.zino.mobilization.weatheryamblz.common.TestData;
 import com.zino.mobilization.weatheryamblz.model.pojo.City;
 import com.zino.mobilization.weatheryamblz.utils.AppResources;
 

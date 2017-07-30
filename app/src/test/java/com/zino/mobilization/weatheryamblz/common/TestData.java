@@ -1,4 +1,4 @@
-package com.zino.mobilization.weatheryamblz.util;
+package com.zino.mobilization.weatheryamblz.common;
 
 import android.net.Uri;
 
@@ -192,6 +192,10 @@ public class TestData {
                 return false;
             }
         };
+    }
+
+    public static City getTestCity() {
+        return new City("", 55, 51);
     }
 
 }

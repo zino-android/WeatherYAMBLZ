@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import io.reactivex.subjects.PublishSubject;
 
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -17,19 +16,24 @@ import static org.mockito.Mockito.when;
 
 public class TemperatureUnitsTest extends WeatherPresenterTest {
 
+    @Override
+    public void init() {
+        super.init();
+        when(preferencesHelper.getCurrentCity())
+                .thenReturn(PublishSubject.create());
+    }
+
     @Test
     public void shouldSetCelsius() {
         when(preferencesHelper.isCelsius()).thenReturn(true);
-        when(preferencesHelper.getCurrentCity()).thenReturn(PublishSubject.create());//to ignore calling in onFirstViewAttach()
-        presenter.attachView(view);
-        verify(view, atLeastOnce()).setCelsius(true);
+        presenter.onFirstViewAttach();
+        verify(viewState).setCelsius(true);
     }
 
     @Test
     public void shouldSetFahrenheit() {
         when(preferencesHelper.isCelsius()).thenReturn(false);
-        when(preferencesHelper.getCurrentCity()).thenReturn(PublishSubject.create());//to ignore calling in onFirstViewAttach()
-        presenter.attachView(view);
-        verify(view, atLeastOnce()).setCelsius(false);
+        presenter.onFirstViewAttach();
+        verify(viewState).setCelsius(false);
     }
 }
