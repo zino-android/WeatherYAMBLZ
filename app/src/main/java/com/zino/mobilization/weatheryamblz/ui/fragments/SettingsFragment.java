@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -23,6 +25,7 @@ import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.zino.mobilization.weatheryamblz.R;
+import com.zino.mobilization.weatheryamblz.WeatherApplication;
 import com.zino.mobilization.weatheryamblz.presentation.presenter.SettingsPresenter;
 import com.zino.mobilization.weatheryamblz.presentation.view.SettingsView;
 
@@ -48,11 +51,12 @@ public class SettingsFragment extends BaseFragment implements SettingsView {
     @BindView(R.id.city_text_view)
     TextView cityTextView;
 
-    public SettingsFragment() {
-        // Required empty public constructor
+    @ProvidePresenter
+    SettingsPresenter provideSettingsPresenter() {
+        return WeatherApplication.getAppComponent().getSettingsPresenter();
     }
 
-
+    @NonNull
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_settings, container, false);

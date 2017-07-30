@@ -7,9 +7,8 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 import com.zino.mobilization.weatheryamblz.R;
-import com.zino.mobilization.weatheryamblz.WeatherApplication;
-import com.zino.mobilization.weatheryamblz.model.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.model.pojo.City;
+import com.zino.mobilization.weatheryamblz.model.prefs.SharedPreferencesHelper;
 import com.zino.mobilization.weatheryamblz.presentation.view.SettingsView;
 import com.zino.mobilization.weatheryamblz.utils.AndroidJobHelper;
 
@@ -21,40 +20,47 @@ import io.reactivex.disposables.CompositeDisposable;
 
 @InjectViewState
 public class SettingsPresenter extends MvpPresenter<SettingsView> {
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private SharedPreferencesHelper preferencesHelper;
+    private AndroidJobHelper jobHelper;
 
-    public SettingsPresenter() {
-        boolean isCelsius = SharedPreferencesHelper.isCelsius(WeatherApplication.context);
+    public SettingsPresenter(SharedPreferencesHelper preferencesHelper,
+                             AndroidJobHelper jobHelper) {
+        this.preferencesHelper = preferencesHelper;
+        this.jobHelper = jobHelper;
+    }
+
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+
+        boolean isCelsius = preferencesHelper.isCelsius();
         if (isCelsius) {
             getViewState().setCelsiusButtonActive();
         } else {
             getViewState().setFahrenheitButtonActive();
         }
 
-        int id = SharedPreferencesHelper.getTimeRadioButtonId(WeatherApplication.context);
+        int id = preferencesHelper.getTimeRadioButtonId();
         if (id == 0) {
             id = R.id.radio_fifteen;
         }
         getViewState().checkRadioButton(id);
-    }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
         compositeDisposable.add(
-                SharedPreferencesHelper.getCurrentCity(WeatherApplication.context)
+                preferencesHelper.getCurrentCity()
                 .subscribe(city -> getViewState().setCurrentCityName(city.getName()))
         );
     }
 
     public void onCelsiusButtonClicked() {
         getViewState().setCelsiusButtonActive();
-        SharedPreferencesHelper.setCelsius(WeatherApplication.context, true);
+        preferencesHelper.setCelsius(true);
     }
 
     public void onFahrenheitButtonClicked() {
         getViewState().setFahrenheitButtonActive();
-        SharedPreferencesHelper.setCelsius(WeatherApplication.context, false);
+        preferencesHelper.setCelsius(false);
     }
 
     public void onCityClicked() {
@@ -62,13 +68,14 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
     }
 
     public void onCityChosen(Place place) {
+        if(place == null) return;
         LatLng latLngCity = place.getLatLng();
         City city = new City(place.getAddress().toString(), latLngCity.latitude, latLngCity.longitude);
-        SharedPreferencesHelper.setCurrentCity(WeatherApplication.context, city);
+        preferencesHelper.setCurrentCity(city);
     }
 
     public void onTimeCheckedChanged(@IdRes int id) {
-        long updateTime = 0;
+        long updateTime = -1;
         switch (id) {
             case R.id.radio_manually:
                 updateTime = 0;
@@ -86,13 +93,14 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
                 updateTime = 10_800_000L;
                 break;
         }
+        if(updateTime == -1) return;
 
-        SharedPreferencesHelper.setUpdateTime(WeatherApplication.context, updateTime);
-        SharedPreferencesHelper.setTimeRadioButtonId(WeatherApplication.context, id);
+        preferencesHelper.setUpdateTime(updateTime);
+        preferencesHelper.setTimeRadioButtonId(id);
         if (updateTime == 0) {
-            AndroidJobHelper.cancelAllJobs(WeatherApplication.context);
+            jobHelper.cancelAllJobs();
         } else {
-            AndroidJobHelper.changeSchedulePeriod(WeatherApplication.context, updateTime);
+            jobHelper.changeSchedulePeriod(updateTime);
         }
 
     }

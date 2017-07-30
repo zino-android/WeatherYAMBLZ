@@ -12,7 +12,13 @@ import java.util.Set;
 
 public class AndroidJobHelper {
 
-    public static void scheduleIfJobRequestsIsEmpty(Context context, long period) {
+    private Context context;
+
+    public AndroidJobHelper(Context context) {
+        this.context = context;
+    }
+
+    public void scheduleIfJobRequestsIsEmpty(long period) {
         JobManager.create(context).addJobCreator(new WeatherJobCreator());
         Set<JobRequest> jobRequests = JobManager.instance().getAllJobRequestsForTag(WeatherSyncJob.TAG);
         if (jobRequests.isEmpty()) {
@@ -20,13 +26,13 @@ public class AndroidJobHelper {
         }
     }
 
-    public static void changeSchedulePeriod(Context context, long period) {
+    public void changeSchedulePeriod(long period) {
         JobManager.create(context).addJobCreator(new WeatherJobCreator());
         JobManager.instance().cancelAllForTag(WeatherSyncJob.TAG);
         WeatherSyncJob.scheduleJob(period);
     }
 
-    public static void cancelAllJobs(Context context) {
+    public void cancelAllJobs() {
         JobManager.create(context).addJobCreator(new WeatherJobCreator());
         JobManager.instance().cancelAllForTag(WeatherSyncJob.TAG);
     }
